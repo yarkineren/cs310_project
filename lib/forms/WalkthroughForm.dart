@@ -19,6 +19,7 @@ class MySharedPreferences {
     return myPrefs.getBool(key) ?? false;
   }
 
+
 }
 
 class WalkThrough extends StatefulWidget {
@@ -31,7 +32,7 @@ class _WalkThroughState extends State {
 
   goToLogin(BuildContext context)
   {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginForm()),);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginForm()),);
   }
 
   int current_page = 0;
@@ -39,10 +40,10 @@ class _WalkThroughState extends State {
   int vis_page_num = 0;
 
   List <String> bar = ['Welcome to Event Buddy', 'Know Where is Interesting', 'Meet New People', 'Where we going?' ];
-  List <String> title = ['This is an app to know what event is around.', 'Get recommendations according to your preferences!',
-    'Get to know people with similar taste', 'Discuss if you do something before the event.' ];
-  List <String> image = ['assets/image_1.jpg', 'assets/image_2.jpg', 'assets/image_3.jpg', 'assets/image_4.jpg' ];
-  List <String> texts = ['...including lots of concerts, exhibitions and much more.', 'wide your perception', 'easier than cliche meeting stories from grandma', 'Ready to join?' ];
+  List <String> title = ['Know what is around.', 'Get recommendations!',
+    'Get to know', 'Discuss.' ];
+  List <String> image = ['assets/welcome.jpg', 'assets/fun.jpg', 'assets/talking_people.jpg', 'assets/disscuss.jpg' ];
+  List <String> texts = ['Be the first ', 'wide your perception', 'hook up', 'Ready to join?' ];
 
   void nextPage() {
     current_page = (current_page + 1) %4;
@@ -73,105 +74,93 @@ class _WalkThroughState extends State {
           centerTitle: true,
         ),
         body:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(title.elementAt(temp_page),
-                  style: TextStyle(
-                    color: Colors.teal[400],
-                    letterSpacing: -1.0,
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.w800,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(title.elementAt(temp_page),
+                    style: TextStyle(
+                      color: Colors.teal[400],
+                      letterSpacing: -1.0,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                CircleAvatar(
-                  maxRadius: 140.0,
-                  backgroundImage: AssetImage(image.elementAt(temp_page)),
-                ),
-                Text(texts.elementAt(temp_page),
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    letterSpacing: -1.0,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w300,
+                  CircleAvatar(
+                    maxRadius: 140.0,
+                    backgroundImage: AssetImage(image[current_page]),
+                    foregroundImage: AssetImage(image[current_page]),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FlatButton(
-                      onPressed: (){
-                        setState(() {
-                          goToLogin(context);
-                        });
-                      },
-                      child: Text(
-                        'Close',
+                  Text(texts.elementAt(temp_page),
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      letterSpacing: -1.0,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FlatButton(
+                        onPressed: (){
+                          setState(() {
+                            prevPage();
+                          });
+                        },
+                        child: Text(
+                          'Prev',
+                          style: TextStyle(
+                            color: Colors.teal[400],
+                            letterSpacing: -1.0,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        '$vis_page_num/4',
                         style: TextStyle(
                           color: Colors.teal[400],
                           letterSpacing: -1.0,
                         ),
                       ),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        setState(() {
-                          prevPage();
-                        });
-                      },
-                      child: Text(
-                        'Prev',
-                        style: TextStyle(
-                          color: Colors.teal[400],
-                          letterSpacing: -1.0,
-                        ),
+                      SizedBox(
+                        width: 50,
                       ),
-                    ),
-                    SizedBox(
-                      width: 100,
-                    ),
-                    Text(
-                      '$vis_page_num/4',
-                      style: TextStyle(
-                        color: Colors.teal[400],
-                        letterSpacing: -1.0,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 100,
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        setState(() {
-                          if(vis_page_num + 1 != 5) {
-                            nextPage();
-                          }
-                          else
-                            {
-                              goToLogin(context);
+                      FlatButton(
+                        onPressed: (){
+                          setState(() {
+                            if(vis_page_num + 1 != 5) {
+                              nextPage();
                             }
-                        });
-                      },
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          color: Colors.teal[400],
-                          letterSpacing: -1.0,
+                            else
+                              {
+                                goToLogin(context);
+                              }
+                          });
+                        },
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                            color: Colors.teal[400],
+                            letterSpacing: -1.0,
+                          ),
                         ),
-                      ),
 
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        )
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+
     );
 
   }
