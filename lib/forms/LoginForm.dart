@@ -1,3 +1,4 @@
+import 'package:cs310_app/forms/notifs.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/styles.dart';
@@ -22,6 +23,10 @@ class LoginForm extends StatefulWidget{
 class Login extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final model = UserLoginForm();
+
+  goToNotifs(BuildContext context){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => NotifScreen()),);
+  }
 
   goToForgotPassword(BuildContext context)
   {
@@ -111,11 +116,20 @@ class Login extends State<LoginForm> {
 
                 color: AppColors.alertColor, icon: Icon(Icons.login,color: Colors.white,),
                 label: Text('login',style: kButtonLightTextStyle,)),
-            RaisedButton(child: Text('I Forgot My Password',style:kButtonLightTextStyle ,), color: Colors.transparent,
-                onPressed: () {goToForgotPassword(context);}
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RaisedButton(child: Text('Forgot My Password',style:kButtonLightTextStyle ,), color: Colors.transparent,
+                    onPressed: () {goToForgotPassword(context);}
+                ),
+                RaisedButton(child: Text('Register',style: kButtonLightTextStyle,), color: Colors.transparent,
+                    onPressed: () {goToRegister(context);}
+                ),
+              ],
             ),
-            RaisedButton(child: Text('Register',style: kButtonLightTextStyle,), color: Colors.transparent,
-                onPressed: () {goToRegister(context);}
+
+            RaisedButton(child: Text('Notifications demo ',style: kButtonLightTextStyle,), color: Colors.transparent,
+                onPressed: () {goToNotifs(context);}
             ),
           ],
           ),
