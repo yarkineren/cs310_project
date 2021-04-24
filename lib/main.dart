@@ -1,6 +1,6 @@
+import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 
 import 'forms/LoginForm.dart';
@@ -35,6 +35,6 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: isFirstTimeOpen ? LoginForm(): WalkThrough());
+        home: isFirstTimeOpen ? LoginForm(): HomeScreen());
   }
 }

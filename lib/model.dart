@@ -86,6 +86,79 @@ class Customer_Profile
 //Settings
 }
 
+
+
+List <String> title = ['Concerts', 'Exhibitions', 'Meetings', 'Tutorials', 'Screenings' ];
+List <String> images = ['assets/concert.jpg', 'assets/exhibitions.jpg', 'assets/meetings.jpg','assets/tutorials.jpg', 'assets/screenings.jpg' ];
+
+
+class EventCategory {
+
+  String title;
+  String imagePath;
+  final List<EventCategory> children;
+
+  EventCategory(this.title, this.imagePath,
+      [this.children = const <EventCategory>[]]);
+
+}
+
+final List<EventCategory> data = <EventCategory>[
+  EventCategory(
+    'Concerts', 'assets/concert.jpg',
+    <EventCategory>[
+      EventCategory(
+        'New This Week', 'assets/newconcerts.jpg',
+        <EventCategory>[
+          EventCategory('Warpaint', 'assets/concert.jpg'),
+          EventCategory('Blonde Redhead', 'assets/concert.jpg'),
+          EventCategory('Lil Zey', 'assets/concert.jpg'),
+        ],
+      ),
+    ],
+  ),
+  EventCategory(
+    'Exhibitions', 'assets/exhibitions.jpg',
+    <EventCategory>[
+      EventCategory('Haring and Basquiat', 'assets/exhibitions.jpg'),
+      EventCategory('Machine Memories', 'assets/exhibitions.jpg'),
+    ],
+  ),
+  EventCategory(
+    'Meetings', 'assets/meetings.jpg',
+    <EventCategory>[
+      EventCategory('Covid Psychology Webinar', 'assets/exhibitions.jpg'),
+      EventCategory('CEO Talks', 'assets/exhibitions.jpg'),
+    ],
+  ),
+  EventCategory(
+    'Screenings', 'assets/screenings.jpg',
+        <EventCategory>[
+          EventCategory('Portrait of a Lady on Fire', 'assets/screenings.jpg'),
+          EventCategory('Soul',  'assets/screenings.jpg'),
+          EventCategory('Promising Young Woman',  'assets/screenings.jpg'),
+          EventCategory('Father',  'assets/screenings.jpg'),
+        ],
+      ),
+  EventCategory(
+    'Tutorials', 'assets/tutorial.jpg',
+    <EventCategory>[
+      EventCategory('Drawing 101', 'assets/tutorial.jpg'),
+      EventCategory('3D Modelling for Dummies', 'assets/tutorial.jpg'),
+      EventCategory(
+        'MasterClass with Gordon Ramsay', 'assets/gordonramsay.jpg',
+        <EventCategory>[
+          EventCategory('Chapter 1', 'assets/tutorial.jpg'),
+          EventCategory('Chapter 2', 'assets/tutorial.jpg'),
+          EventCategory('Chapter 3', 'assets/tutorial.jpg'),
+          EventCategory('Chapter 4', 'assets/tutorial.jpg'),
+        ],
+      ),
+    ],
+  ),
+];
+
+
 class Customer_Review
 {
   String text;
