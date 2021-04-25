@@ -5,14 +5,9 @@ import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/postCard.dart';
 import 'package:cs310_app/utils/post.dart';
 import 'package:cs310_app/widgets/ProfileEdit.dart';
+import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 
 
-
-
-
-void main() => runApp(MaterialApp(
-  home: ProfileView(),
-));
 
 class ProfileView extends StatefulWidget {
   @override
@@ -47,9 +42,14 @@ class _ProfileViewState extends State<ProfileView> {
 
   void refresh() {
     setState(() {
-      username = "@" + signup_username;
+      /*username = "@" + signup_username;
       email = signup_mail;
-      nickname = signup_nickname;
+      nickname = signup_nickname;*/
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => true,
+      );
     });
   }
 

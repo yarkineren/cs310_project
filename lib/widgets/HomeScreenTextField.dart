@@ -1,11 +1,12 @@
 import 'package:cs310_app/widgets/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
-
+import 'package:cs310_app/utils/global_variables.dart';
 import '../utils/colors.dart';
 
 class HomeScreen extends StatelessWidget{
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -28,11 +29,11 @@ class HomeScreen extends StatelessWidget{
                 decoration: BoxDecoration(
                   color: AppColors.headingColor,
                 ),
-                accountName: Text("Eren Elçin",
+                accountName: Text(signup_nickname,
                   textScaleFactor: 1.5,
                 ),
                 //TODO: Signup_mail ı userID e göre databaseden alacak şekilde yap.
-                accountEmail: Text("eren@gmail.com"),
+                accountEmail: Text(signup_mail),
                 currentAccountPicture: CircleAvatar(
                   //TODO: Image i databaseden çek.
                   backgroundImage: AssetImage('assets/concert.jpg'),
@@ -51,10 +52,10 @@ class HomeScreen extends StatelessWidget{
                           onPressed: () {
                             //TODO: Navigate
                             //Navigator.pushNamed(context, '/home');
-                            Navigator.pushAndRemoveUntil(
+                            Navigator.of(context).pop();
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => ProfileView()),
-                                  (Route<dynamic> route) => true,
                             );
                           },
                           child: Text(
