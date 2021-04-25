@@ -1,3 +1,5 @@
+import 'package:cs310_app/forms/ExploreForm.dart';
+import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/widgets/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
@@ -77,6 +79,37 @@ class HomeScreen extends StatelessWidget{
                           onPressed: () {
                             //TODO: Navigate
                             //Navigator.pushNamed(context, '/home');
+                            Navigator.of(context).pop();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => SearchExploreForm()),
+                                  (Route<dynamic> route) => true,
+                            );
+                          },
+                          child: Text(
+                            "What's Around?",
+                            style: TextStyle(
+                              color: Colors.white,
+                              letterSpacing: 0.0,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: AppColors.headingColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height:32.0),
+                      ListTile(
+                        title: OutlinedButton(
+                          onPressed: () {
+                            //TODO: Navigate
+                            //Navigator.pushNamed(context, '/home');
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginForm()),
+                                  (Route<dynamic> route) => false,
+                            );
                           },
                           child: Text(
                             "Logout",

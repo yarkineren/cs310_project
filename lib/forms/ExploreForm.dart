@@ -14,6 +14,7 @@ class SearchExploreForm extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Whats around?'),
           backgroundColor: AppColors.headingColor,
+          centerTitle: true,
         ),
         body: new Column(
             children: <Widget>[
