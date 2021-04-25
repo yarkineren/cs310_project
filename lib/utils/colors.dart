@@ -8,3 +8,12 @@ class AppColors {
   static const Color ButtonColor =  Colors.white;
   static Color TextFormField =  Colors.orange[100];
 }
+
+class Post {
+  String text;
+  String date;
+  int likes;
+  int comments;
+
+  Post({ this.text, this.date, this.likes, this.comments });
+}

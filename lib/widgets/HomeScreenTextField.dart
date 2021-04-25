@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget{
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Home Page',
+          'Feed Page',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: -1.0,
@@ -22,6 +22,165 @@ class HomeScreen extends StatelessWidget{
         ),
         backgroundColor: AppColors.headingColor,
         centerTitle: true,
+      ),
+      body: Column(
+        mainAxisAlignment : MainAxisAlignment.spaceEvenly,
+        children : [
+          Row(
+            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment : CrossAxisAlignment.start,
+          ),
+          Column(children:[
+            Container(
+              color:AppColors.ButtonColor,
+              height : 200,
+              width : 300,
+              child : Column(children : [
+                SizedBox(height:10.0),
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                  children : [
+                    CircleAvatar(
+                      backgroundImage:AssetImage("assets/fun.jpg"),
+                      radius : 20.0,
+                    ),
+
+                    SizedBox(width: 8.0),
+                    Text(
+                      '@melmel',
+
+                    ),
+                    Text(
+                      '32 Likes',
+
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/fun.jpg',
+                      width: 100,
+                      height : 100,
+                    ),
+                    Text(
+                      'My new car is so cool',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children : [
+                        Icon(Icons.thumb_up_sharp),
+                        Icon(Icons.thumb_down_sharp),
+                        Icon(Icons.comment_rounded),
+                        Icon(Icons.share_outlined),
+                        Icon(Icons.save),
+                      ] ,
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              color: AppColors.ButtonColor,
+              height : 100,
+              width : 300,
+
+              child : Column(children : [
+                SizedBox(height:10.0),
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                  children : [
+                    CircleAvatar(
+                      backgroundImage:AssetImage("assets/fun.jpg"),
+                      radius : 20.0,
+                    ),
+
+                    SizedBox(width: 8.0),
+                    Text(
+                      '@bernard',
+
+                    ),
+                    Text(
+                      '8 Likes',
+
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      'Shared her location',
+                    ),
+                    Row(
+                      mainAxisAlignment:MainAxisAlignment.spaceAround,
+                      children : [
+                        Icon(Icons.thumb_up_sharp),
+                        Icon(Icons.thumb_down_sharp),
+                        Icon(Icons.comment_rounded),
+                        Icon(Icons.share_outlined),
+                        Icon(Icons.save),
+                      ] ,
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              color: AppColors.ButtonColor,
+              height : 200,
+              width : 300,
+              child : Column(children : [
+                SizedBox(height:10.0),
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                  children : [
+                    CircleAvatar(
+                      backgroundImage:AssetImage("assets/fun.jpg"),
+                      radius : 20.0,
+                    ),
+
+                    SizedBox(width: 8.0),
+                    Text(
+                      '@eren',
+
+                    ),
+                    Text(
+                      '94 Likes',
+
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/fun.jpg',
+                      width: 800,
+                      height : 100,
+                    ),
+                    Text(
+                      'With my wine',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children : [
+                        Icon(Icons.thumb_up_sharp),
+                        Icon(Icons.thumb_down_sharp),
+                        Icon(Icons.comment_rounded),
+                        Icon(Icons.share_outlined),
+                        Icon(Icons.save),
+                      ] ,
+                    ),
+                  ],
+                ),
+              ]),
+            )
+
+
+
+          ]),
+        ],
       ),
       drawer: Drawer(
         elevation: 10,
@@ -34,11 +193,11 @@ class HomeScreen extends StatelessWidget{
                 accountName: Text(signup_nickname,
                   textScaleFactor: 1.5,
                 ),
-                //TODO: Signup_mail ı userID e göre databaseden alacak şekilde yap.
+
                 accountEmail: Text(signup_mail),
                 currentAccountPicture: CircleAvatar(
-                  //TODO: Image i databaseden çek.
-                  backgroundImage: AssetImage('assets/concert.jpg'),
+
+                  backgroundImage: AssetImage('assets/fun.jpg'),
                   radius: 120,
                 ),
               ),
@@ -52,7 +211,7 @@ class HomeScreen extends StatelessWidget{
                       ListTile(
                         title: OutlinedButton(
                           onPressed: () {
-                            //TODO: Navigate
+
                             //Navigator.pushNamed(context, '/home');
                             Navigator.of(context).pop();
                             Navigator.push(
@@ -61,7 +220,7 @@ class HomeScreen extends StatelessWidget{
                             );
                           },
                           child: Text(
-                            "My Proifle",
+                            "My Profile",
                             style: TextStyle(
                               color: Colors.white,
                               letterSpacing: 0.0,
@@ -87,7 +246,7 @@ class HomeScreen extends StatelessWidget{
                             );
                           },
                           child: Text(
-                            "What's Around?",
+                            "What's Around",
                             style: TextStyle(
                               color: Colors.white,
                               letterSpacing: 0.0,

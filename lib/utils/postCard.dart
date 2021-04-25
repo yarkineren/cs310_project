@@ -1,6 +1,5 @@
 import 'package:cs310_app/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cs310_app/utils/post.dart';
 import 'package:cs310_app/utils/global_variables.dart';
 
 
