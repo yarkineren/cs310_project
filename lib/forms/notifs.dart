@@ -1,4 +1,4 @@
-import 'package:cs310_app/utils/colors.dart';
+/*import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/styles.dart';
 import 'package:cs310_app/model.dart';
 import 'package:email_validator/email_validator.dart';
@@ -24,10 +24,9 @@ class NotifFormState extends State<notifs>{
   showNotification() async {
     var android = new AndroidNotificationDetails(
         'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
-        priority: Priority.High,importance: Importance.Max
     );
     var iOS = new IOSNotificationDetails();
-    var platform = new NotificationDetails(android, iOS);
+    var platform = new NotificationDetails();
     await flutterLocalNotificationsPlugin.show(
         0, 'notification demo ', 'mysterios one followed you', platform,
         payload: 'yarkineren followed you ');
@@ -38,7 +37,7 @@ class NotifFormState extends State<notifs>{
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
-    var initSettings = new InitializationSettings(android,iOS);
+    var initSettings = new InitializationSettings();
     flutterLocalNotificationsPlugin.initialize(initSettings,
         onSelectNotification: onSelectNotification);
   }
@@ -70,3 +69,6 @@ class notifs extends StatefulWidget{
   @override
   NotifFormState createState() => NotifFormState();
 }
+
+
+ */

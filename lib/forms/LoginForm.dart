@@ -24,9 +24,11 @@ class Login extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final model = UserLoginForm();
 
-  goToNotifs(BuildContext context){
+ /* goToNotifs(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => NotifScreen()),);
   }
+
+  */
 
   goToForgotPassword(BuildContext context)
   {
@@ -127,10 +129,12 @@ class Login extends State<LoginForm> {
                 ),
               ],
             ),
-
+/*
             RaisedButton(child: Text('Notifications demo ',style: kButtonLightTextStyle,), color: Colors.transparent,
                 onPressed: () {goToNotifs(context);}
             ),
+
+ */
           ],
           ),
           )

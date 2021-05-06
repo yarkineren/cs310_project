@@ -1,5 +1,6 @@
 import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 
@@ -8,10 +9,12 @@ import 'forms/WalkthroughForm.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -21,7 +24,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   bool isFirstTimeOpen = false;
 
   MyAppState() {
@@ -34,7 +37,25 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: isFirstTimeOpen ? LoginForm(): HomeScreen());
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context,snapshot){
+        if (snapshot.hasError){
+          print('cant connect to firabase' +snapshot.error);
+          return MaterialApp(
+            home: WalkThrough(),
+          );
+        }
+        if (snapshot.connectionState== ConnectionState.done){
+          print('firebase connected bro');
+          return MaterialApp(
+            home: LoginForm(),
+          );
+        }
+        return MaterialApp(
+          home: WalkThrough(),
+        );
+      },
+    );
   }
 }

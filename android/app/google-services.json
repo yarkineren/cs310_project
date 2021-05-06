@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "176017609345",
+    "project_id": "event-buddy-3b957",
+    "storage_bucket": "event-buddy-3b957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176017609345:android:d6f469975b76143d2df380",
+        "android_client_info": {
+          "package_name": "com.example.cs310_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176017609345-rr6495qjp7cbo9kubjsd8114f4oo4k05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-GFhxs-Qj3ePAl8T_PrhCtjWS8tkBKoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176017609345-rr6495qjp7cbo9kubjsd8114f4oo4k05.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
