@@ -53,9 +53,19 @@ class MyAppState extends State<MyApp> {
           );
         }
         return MaterialApp(
-          home: WalkThrough(),
+          home: AuthenticationWrapper(),
         );
       },
     );
   }
+}
+
+class AuthenticationWrapper extends StatelessWidget
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return Container();
+  }
+
 }

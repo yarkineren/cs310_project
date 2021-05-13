@@ -4,6 +4,8 @@ import 'package:cs310_app/utils/global_variables.dart';
 import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/postCard.dart';
 import 'package:cs310_app/widgets/ProfileEdit.dart';
+import 'package:cs310_app/forms/LoginForm.dart';
+
 import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 
 

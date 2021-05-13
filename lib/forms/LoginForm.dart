@@ -8,8 +8,7 @@ import'package:cs310_app/widgets/ForgotPasswordTextField.dart';
 import'package:cs310_app/widgets/HomeScreenTextField.dart';
 import'package:cs310_app/widgets/RegisterTextField.dart';
 import '../model.dart';
-
-
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class LoginForm extends StatefulWidget{
@@ -21,14 +20,44 @@ class LoginForm extends StatefulWidget{
 }
 
 class Login extends State<LoginForm> {
+  bool _isLoggedIn = false;
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   final _formKey = GlobalKey<FormState>();
   final model = UserLoginForm();
-
  /* goToNotifs(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => NotifScreen()),);
   }
 
   */
+  loginwith_Google() async {
+    try {
+     await _googleSignIn.signIn();
+     setState(() {
+       _isLoggedIn = true;
+     });
+     print("Google Login Succeeded");
+    }
+    catch(err){
+      print(err);
+    }
+  }
+
+  logoutwith_Google()
+  {
+    _googleSignIn.signOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
+
+  goToHomeScreen_Google(BuildContext context) async
+  {
+    await loginwith_Google();
+    if(_isLoggedIn == true)
+      {
+        goToHomeScreen(context);
+      }
+  }
 
   goToForgotPassword(BuildContext context)
   {
@@ -118,11 +147,14 @@ class Login extends State<LoginForm> {
 
                 color: AppColors.alertColor, icon: Icon(Icons.login,color: Colors.white,),
                 label: Text('login',style: kButtonLightTextStyle,)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(child: Text('Forgot My Password',style:kButtonLightTextStyle ,), color: Colors.transparent,
                     onPressed: () {goToForgotPassword(context);}
+                ),
+                RaisedButton(child: Text('Login with Google',style:kButtonLightTextStyle ,), color: Colors.transparent,
+                    onPressed: () {loginwith_Google(); goToHomeScreen_Google(context);}
                 ),
                 RaisedButton(child: Text('Register',style: kButtonLightTextStyle,), color: Colors.transparent,
                     onPressed: () {goToRegister(context);}
