@@ -1,4 +1,5 @@
 import 'package:cs310_app/forms/notifs.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/styles.dart';
@@ -9,6 +10,7 @@ import'package:cs310_app/widgets/HomeScreenTextField.dart';
 import'package:cs310_app/widgets/RegisterTextField.dart';
 import '../model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 
 
 class LoginForm extends StatefulWidget{
@@ -29,6 +31,11 @@ class Login extends State<LoginForm> {
   }
 
   */
+
+
+  Future<void> setCrashlyticsCollectionEnabled() {
+    return FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  }
   loginwith_Google() async {
     try {
      await _googleSignIn.signIn();
@@ -98,7 +105,8 @@ class Login extends State<LoginForm> {
   void initState() //FOR GET INFO FROM API
   {
     super.initState();
-
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    //setCrashlyticsCollectionEnabled();
   }
 
 
@@ -158,6 +166,9 @@ class Login extends State<LoginForm> {
                 ),
                 RaisedButton(child: Text('Register',style: kButtonLightTextStyle,), color: Colors.transparent,
                     onPressed: () {goToRegister(context);}
+                ),
+                RaisedButton(child: Text('Crash',style: kButtonLightTextStyle,), color: Colors.red,
+                    onPressed: () {FirebaseCrashlytics.instance.crash();}
                 ),
               ],
             ),

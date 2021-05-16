@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,10 +9,15 @@ import 'package:cs310_app/forms/WalkthroughForm.dart';
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  await Firebase.initializeApp();
+  runZonedGuarded(() {
+    runApp(MyApp());
+  }, FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatefulWidget {
