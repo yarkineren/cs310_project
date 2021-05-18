@@ -1,11 +1,12 @@
 import 'dart:async';
-
 import 'package:cs310_app/widgets/HomeScreenTextField.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
-
+import 'package:cs310_app/homepagee.dart';
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
 
@@ -55,9 +56,7 @@ class MyAppState extends State<MyApp> {
         }
         if (snapshot.connectionState== ConnectionState.done){
           print('firebase connected bro');
-          return MaterialApp(
-            home: LoginForm(),
-          );
+          return AppBase();
         }
         return MaterialApp(
           home: AuthenticationWrapper(),
@@ -67,8 +66,31 @@ class MyAppState extends State<MyApp> {
   }
 }
 
+class AppBase extends StatelessWidget {
+  const AppBase({
+    Key key,
+  }) : super(key: key);
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorObservers: <NavigatorObserver>[observer],
+      home: HomePage(analytics: analytics, observer: observer),
+      routes:{
+        '/login': (context) => LoginForm(),
+      },
+    );
+  }
+}
+
 class AuthenticationWrapper extends StatelessWidget
 {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context)
   {
