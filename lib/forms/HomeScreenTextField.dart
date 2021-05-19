@@ -6,7 +6,31 @@ import 'package:cs310_app/model.dart';
 import 'package:cs310_app/utils/global_variables.dart';
 import '../utils/colors.dart';
 
-class HomeScreen extends StatelessWidget{
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key key, this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+
+}
+
+class _HomeScreenState extends State<HomeScreen>
+{
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class HomeScreenForm extends StatelessWidget{
   @override
 
   Widget build(BuildContext context) {

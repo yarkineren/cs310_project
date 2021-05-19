@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       _message = msg;
     });
   }
-
+/*
   Future <void> _setLogEvent() async{
     await widget.analytics.logEvent(
         name: 'cs310',
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     await widget.analytics.setUserId('mel.ozg');
     setMessage('setUserId succeeded');
   }
-
+*/
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -60,18 +60,11 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              OutlinedButton(
-                onPressed: _setCurrentScreen,
-                child: const Text('Set Screen Name'),
-              ),
-              OutlinedButton(
-                onPressed: _setUserId,
-                child: const Text('Set User ID'),
-              ),
+              /*
               OutlinedButton(
                 onPressed: _setLogEvent,
                 child: const Text('custom log events'),
-              ),
+              ),*/
               Text(
                 _message,
                 style: TextStyle(
@@ -79,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               OutlinedButton(
-                child: const Text('login'),
+                child: const Text('Login'),
                 onPressed: (){
                   Navigator.pushNamed(context, '/login');
                 },

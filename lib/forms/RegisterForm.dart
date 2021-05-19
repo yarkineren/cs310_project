@@ -7,6 +7,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/material.dart';
+
+
 class RegisterScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context)
@@ -106,6 +111,12 @@ class RegisterFormState extends State<RegisterForm>
 }
 
 class RegisterForm extends StatefulWidget{
+
+  const RegisterForm({Key key, this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
   RegisterFormState createState() => RegisterFormState();
 }

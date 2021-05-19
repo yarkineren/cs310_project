@@ -11,15 +11,22 @@ import'package:cs310_app/widgets/RegisterTextField.dart';
 import '../model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/material.dart';
 
 
-class LoginForm extends StatefulWidget{
+  class LoginForm extends StatefulWidget{
+    const LoginForm({Key key, this.analytics, this.observer}) : super(key: key);
+
+    final FirebaseAnalytics analytics;
+    final FirebaseAnalyticsObserver observer;
+
   @override
-  State<StatefulWidget> createState()
-  {
+  State<StatefulWidget> createState(){
     return Login();
+    }
   }
-}
 
 class Login extends State<LoginForm> {
   bool _isLoggedIn = false;

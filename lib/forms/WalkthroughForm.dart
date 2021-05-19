@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/material.dart';
+
+
 class MySharedPreferences {
   MySharedPreferences._privateConstructor();
 
@@ -23,6 +29,11 @@ class MySharedPreferences {
 }
 
 class WalkThrough extends StatefulWidget {
+
+  const WalkThrough({Key key, this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _WalkThroughState createState() => _WalkThroughState();

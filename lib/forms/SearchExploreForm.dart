@@ -4,6 +4,7 @@ import 'package:cs310_app/utils/colors.dart';
 
 //NOW NOT IN USE, BUT USEFUL WHEN WE IMPLEMENT BACKEND FOR THE SEARCH BAR
 
+
 class NOTUSEDSearchExploreForm extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

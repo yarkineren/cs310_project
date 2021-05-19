@@ -7,6 +7,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 import 'package:cs310_app/homepagee.dart';
+import 'package:cs310_app/forms/ExploreForm.dart';
+import 'package:cs310_app/forms/HomeScreenTextField.dart';
+import 'package:cs310_app/forms/LoginForm.dart';
+import 'package:cs310_app/forms/RegisterForm.dart';
+import 'package:cs310_app/forms/WalkthroughForm.dart';
+
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
 
@@ -79,10 +85,15 @@ class AppBase extends StatelessWidget {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       home: HomePage(analytics: analytics, observer: observer),
-      routes:{
-        '/login': (context) => LoginForm(),
-      },
+        : SearchExploreForm(analytics: analytics, observer: observer),
+        : HomeScreen(analytics: analytics, observer: observer),
+        : LoginForm(analytics: analytics, observer: observer),
+        : RegisterForm(analytics: analytics, observer: observer),
+        : WalkThrough(analytics: analytics, observer: observer),
+
+    },
     );
+
   }
 }
 

@@ -4,7 +4,31 @@ import 'package:cs310_app/utils/colors.dart';
 
 import 'package:flutter/material.dart';
 
-class SearchExploreForm extends StatelessWidget {
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/material.dart';
+
+
+class SearchExploreForm extends StatefulWidget {
+  const SearchExploreForm({Key key, this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  @override
+  SearchExploreFormState createState() => SearchExploreFormState();
+
+}
+
+class SearchExploreFormState extends State<SearchExploreForm>
+{
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class SearchExploreScreen extends StatelessWidget {
   TextEditingController searchController = new TextEditingController();
 
   @override
@@ -30,7 +54,7 @@ class SearchExploreForm extends StatelessWidget {
     ), ),),
 
 
-new Expanded(
+          new Expanded(
           child: new ListView.builder(
             itemBuilder: (BuildContext context, int index) =>
                 Event(data[index]),
