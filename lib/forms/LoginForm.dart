@@ -7,13 +7,13 @@ import'package:cs310_app/widgets/UserLoginTextField.dart';
 import'package:cs310_app/forms/registerForm.dart';
 import'package:cs310_app/widgets/ForgotPasswordTextField.dart';
 import'package:cs310_app/widgets/HomeScreenTextField.dart';
-import'package:cs310_app/widgets/RegisterTextField.dart';
 import '../model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:cs310_app/globals.dart';
 
 
   class LoginForm extends StatefulWidget{
@@ -29,6 +29,7 @@ import 'package:flutter/material.dart';
   }
 
 class Login extends State<LoginForm> {
+    String _message = '';
   bool _isLoggedIn = false;
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   final _formKey = GlobalKey<FormState>();
@@ -38,6 +39,9 @@ class Login extends State<LoginForm> {
   }
 
   */
+  Future<void> _setCurrentScreen() async {
+    await widget.analytics.setCurrentScreen(screenName: 'homepage',screenClassOverride :null);
+  }
 
 
   Future<void> setCrashlyticsCollectionEnabled() {
@@ -80,6 +84,7 @@ class Login extends State<LoginForm> {
 
   goToHomeScreen(BuildContext context)
   {
+    _setCurrentScreen();
     Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()),);
   }
 

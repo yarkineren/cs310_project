@@ -265,7 +265,7 @@ class HomeScreenForm extends StatelessWidget{
                             Navigator.of(context).pop();
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => SearchExploreForm()),
+                              MaterialPageRoute(builder: (context) => SearchExploreScreen()),
                                   (Route<dynamic> route) => true,
                             );
                           },

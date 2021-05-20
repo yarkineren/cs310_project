@@ -6,18 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
-import 'package:cs310_app/homepagee.dart';
 import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/HomeScreenTextField.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
-import 'package:cs310_app/forms/RegisterForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
+import 'globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,21 +75,13 @@ class AppBase extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
-      home: HomePage(analytics: analytics, observer: observer),
-        : SearchExploreForm(analytics: analytics, observer: observer),
-        : HomeScreen(analytics: analytics, observer: observer),
-        : LoginForm(analytics: analytics, observer: observer),
-        : RegisterForm(analytics: analytics, observer: observer),
-        : WalkThrough(analytics: analytics, observer: observer),
+      navigatorObservers: <NavigatorObserver>[observer_glob],
+      home: LoginForm(analytics: analytics_glob, observer: observer_glob),
 
-    },
     );
 
   }

@@ -1,13 +1,34 @@
 import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/widgets/Profile.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
 import 'package:cs310_app/utils/global_variables.dart';
+import '../globals.dart';
+import '../globals.dart';
+import '../globals.dart';
 import '../utils/colors.dart';
 
-class HomeScreen extends StatelessWidget{
+class HomeScreen extends StatefulWidget{
+  get analytics =>  analytics_glob;
+
+
   @override
+  State<StatefulWidget> createState(){
+    return homeState();
+  }
+}
+class homeState extends State<HomeScreen>{
+  Future<void> _setCurrentScreen1() async {
+    await widget.analytics.setCurrentScreen(screenName: 'Profile');
+  }
+  Future<void> _setCurrentScreen2() async {
+    await widget.analytics.setCurrentScreen(screenName: 'Search and explore');
+  }
+  Future<void> _setCurrentScreen3() async {
+    await widget.analytics.setCurrentScreen(screenName: 'log in');
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,6 +232,7 @@ class HomeScreen extends StatelessWidget{
                       ListTile(
                         title: OutlinedButton(
                           onPressed: () {
+                            _setCurrentScreen1();
 
                             //Navigator.pushNamed(context, '/home');
                             Navigator.of(context).pop();
@@ -237,6 +259,7 @@ class HomeScreen extends StatelessWidget{
                         title: OutlinedButton(
                           onPressed: () {
                             //TODO: Navigate
+                            _setCurrentScreen2();
                             //Navigator.pushNamed(context, '/home');
                             Navigator.of(context).pop();
                             Navigator.pushAndRemoveUntil(
@@ -263,6 +286,7 @@ class HomeScreen extends StatelessWidget{
                         title: OutlinedButton(
                           onPressed: () {
                             //TODO: Navigate
+                            _setCurrentScreen3();
                             //Navigator.pushNamed(context, '/home');
                             Navigator.pushAndRemoveUntil(
                               context,
