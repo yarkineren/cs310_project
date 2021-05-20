@@ -5,18 +5,25 @@ import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/postCard.dart';
 import 'package:cs310_app/widgets/ProfileEdit.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
-
+import 'package:cs310_app/globals.dart';
 import 'package:cs310_app/widgets/HomeScreenTextField.dart';
 
 
 
 class ProfileView extends StatefulWidget {
+  get analytics =>  analytics_glob;
   @override
   _ProfileViewState createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
 
+  Future<void> _setCurrentScreen() async {
+    await widget.analytics.setCurrentScreen(screenName: 'editing profile',screenClassOverride :null);
+  }
+  Future<void> _setCurrentScreen2() async {
+    await widget.analytics.setCurrentScreen(screenName: 'refresh',screenClassOverride :null);
+  }
   int postCount = 3;
 
   String username = "@" + signup_username;
@@ -33,6 +40,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   void buttonPressed() {
     setState(() {
+      _setCurrentScreen();
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ProfileEdit()),
@@ -46,6 +54,7 @@ class _ProfileViewState extends State<ProfileView> {
       /*username = "@" + signup_username;
       email = signup_mail;
       nickname = signup_nickname;*/
+      _setCurrentScreen2();
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),

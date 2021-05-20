@@ -3,17 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/utils/global_variables.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:cs310_app/globals.dart';
 
 void main() => runApp(MaterialApp(
   home: ProfileEdit(),
 ));
 
 class ProfileEdit extends StatefulWidget {
+  get analytics =>  analytics_glob;
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
+  Future<void> _setCurrentScreen() async {
+    await widget.analytics.setCurrentScreen(screenName: 'changing password',screenClassOverride :null);
+  }
+
 
   String current_password;
   String signup_pass_temp;
@@ -26,6 +32,8 @@ class _ProfileEditState extends State<ProfileEdit> {
   void buttonPressed() {
     if(_formKey.currentState.validate()){
       setState(() {
+        _setCurrentScreen();
+
         if (signup_pass != current_password){
           showAlertDialog("Error", "Passwords must match.");
         }

@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 import 'package:cs310_app/forms/ExploreForm.dart';
-import 'package:cs310_app/forms/HomeScreenTextField.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 

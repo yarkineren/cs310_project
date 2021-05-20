@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
 import 'package:cs310_app/utils/colors.dart';
-
+import 'package:cs310_app/globals.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -10,10 +10,7 @@ import 'package:flutter/material.dart';
 
 
 class SearchExploreForm extends StatefulWidget {
-  const SearchExploreForm({Key key, this.analytics, this.observer}) : super(key: key);
-
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  get analytics =>  analytics_glob;
 
   @override
   SearchExploreFormState createState() => SearchExploreFormState();
@@ -22,48 +19,49 @@ class SearchExploreForm extends StatefulWidget {
 
 class SearchExploreFormState extends State<SearchExploreForm>
 {
+
   @override
-  Widget build(BuildContext context) {
-    return Container();
+  Future<void> _setCurrentScreen() async {
+    await widget.analytics.setCurrentScreen(screenName: 'Etkinlikler',screenClassOverride :null);
   }
-}
-
-class SearchExploreScreen extends StatelessWidget {
-  TextEditingController searchController = new TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Whats around?'),
-          backgroundColor: AppColors.headingColor,
-          centerTitle: true,
-        ),
-        body: new Column(
-            children: <Widget>[
-        new Padding(
-    padding: new EdgeInsets.all(8.0),
-    child: new TextField(
-    controller: searchController,
-    decoration: InputDecoration(
-    hintText: 'Search Events',
-    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-    border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(32.0)),
-    ), ),),
+
+    TextEditingController searchController = new TextEditingController();
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: const Text('Whats around?'),
+              backgroundColor: AppColors.headingColor,
+              centerTitle: true,
+            ),
+            body: new Column(
+              children: <Widget>[
+                new Padding(
+                  padding: new EdgeInsets.all(8.0),
+                  child: new TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search Events',
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0)),
+                    ), ),),
 
 
-          new Expanded(
-          child: new ListView.builder(
-            itemBuilder: (BuildContext context, int index) =>
-                Event(data[index]),
-            itemCount: data.length,
-          ),
-        ),
-    ],
-        )),
-    );
+                new Expanded(
+                  child: new ListView.builder(
+                    itemBuilder: (BuildContext context, int index) =>
+                        Event(data[index]),
+                    itemCount: data.length,
+                  ),
+                ),
+              ],
+            )),
+      );
+    }
   }
 }
 

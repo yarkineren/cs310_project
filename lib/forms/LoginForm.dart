@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/styles.dart';
 import'package:cs310_app/widgets/UserLoginTextField.dart';
-import'package:cs310_app/forms/registerForm.dart';
 import'package:cs310_app/widgets/ForgotPasswordTextField.dart';
 import'package:cs310_app/widgets/HomeScreenTextField.dart';
 import '../model.dart';
@@ -87,12 +86,6 @@ class Login extends State<LoginForm> {
     _setCurrentScreen();
     Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()),);
   }
-
-  goToRegister(BuildContext context)
-  {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()),);
-  }
-
   //void getData() async{
   //Future.delayed(Duration(seconds:3), ()
 
@@ -175,9 +168,6 @@ class Login extends State<LoginForm> {
                 ),
                 RaisedButton(child: Text('Login with Google',style:kButtonLightTextStyle ,), color: Colors.transparent,
                     onPressed: () {loginwith_Google(); goToHomeScreen_Google(context);}
-                ),
-                RaisedButton(child: Text('Register',style: kButtonLightTextStyle,), color: Colors.transparent,
-                    onPressed: () {goToRegister(context);}
                 ),
                 RaisedButton(child: Text('Crash',style: kButtonLightTextStyle,), color: Colors.red,
                     onPressed: () {FirebaseCrashlytics.instance.crash();}
