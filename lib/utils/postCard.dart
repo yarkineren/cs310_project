@@ -51,7 +51,7 @@ class PostCard extends StatelessWidget {
                   size: 16.0,
                   color: AppColors.primary,
                 ),
-                Text(
+                /*Text(
                   '${post.likes}',
                   style: TextStyle(
                     fontFamily: 'BrandonText',
@@ -60,6 +60,8 @@ class PostCard extends StatelessWidget {
                     color: AppColors.textColor,
                   ),
                 ),
+
+                 */
 
                 SizedBox(width: 8.0),
 

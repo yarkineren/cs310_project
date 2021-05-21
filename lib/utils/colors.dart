@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -12,8 +14,29 @@ class AppColors {
 class Post {
   String text;
   String date;
-  int likes;
-  int comments;
+  Set comments = {};
+  Set usersLiked = {};
+  DatabaseReference _id;
+  Post({ this.text, this.date, this.comments });
+  void likePost (User user) {
+    if (this.usersLiked.contains(user.uid)){
+      this.usersLiked.remove(user.uid);
+    }
+    else{
+      this.usersLiked.add(user.uid);
+    }
+  }
 
-  Post({ this.text, this.date, this.likes, this.comments });
+  void setId(DatabaseReference id){
+    this._id=id;
+  }
+  Map<String,dynamic> toJson() {
+    return {
+      'text' : this.text,
+      'date' : this.date,
+      'comments' : this.comments.toList(),
+      'usersliked' : this.usersLiked.toList(),
+
+    };
+  }
 }

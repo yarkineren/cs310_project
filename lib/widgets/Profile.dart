@@ -33,9 +33,9 @@ class _ProfileViewState extends State<ProfileView> {
 
 
   List<Post> posts = [
-    Post(text: 'Hello World', date: '19 March', likes: 30, comments: 10),
-    Post(text: 'Hello World 2', date: '18 March', likes: 20, comments: 20),
-    Post(text: 'Hello World 3', date: '17 March', likes: 10, comments: 30),
+    //Post(text: 'Hello World', date: '19 March', likes: 30, comments: 10),
+   // Post(text: 'Hello World 2', date: '18 March', likes: 20, comments: 20),
+    //Post(text: 'Hello World 3', date: '17 March', likes: 10, comments: 30),
   ];
 
   void buttonPressed() {
