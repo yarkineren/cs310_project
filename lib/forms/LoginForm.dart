@@ -8,7 +8,7 @@ import'package:cs310_app/widgets/ForgotPasswordTextField.dart';
 import'package:cs310_app/widgets/HomeScreenTextField.dart';
 import '../model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +31,7 @@ class Login extends State<LoginForm> {
     String _message = '';
   bool _isLoggedIn = false;
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final model = UserLoginForm();
  /* goToNotifs(BuildContext context){
@@ -46,13 +47,19 @@ class Login extends State<LoginForm> {
   Future<void> setCrashlyticsCollectionEnabled() {
     return FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   }
-  loginwith_Google() async {
+  Future<User> loginwith_Google() async { //loginwith_Google
     try {
-     await _googleSignIn.signIn();
+     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+     final AuthCredential credential = GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken,);
+     final User user = (await _auth.signInWithCredential(credential)).user;
+
      setState(() {
        _isLoggedIn = true;
      });
+     print(user.displayName + " is signed in");
      print("Google Login Succeeded");
+     return user;
     }
     catch(err){
       print(err);
@@ -167,7 +174,7 @@ class Login extends State<LoginForm> {
                     onPressed: () {goToForgotPassword(context);}
                 ),
                 RaisedButton(child: Text('Login with Google',style:kButtonLightTextStyle ,), color: Colors.transparent,
-                    onPressed: () {loginwith_Google(); goToHomeScreen_Google(context);}
+                    onPressed: () {loginwith_Google().then((User user) => print(user)).catchError((e) => print(e)); goToHomeScreen_Google(context);}
                 ),
                 RaisedButton(child: Text('Crash',style: kButtonLightTextStyle,), color: Colors.red,
                     onPressed: () {FirebaseCrashlytics.instance.crash();}
