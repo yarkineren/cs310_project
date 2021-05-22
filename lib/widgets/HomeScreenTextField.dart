@@ -2,6 +2,7 @@ import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/widgets/Profile.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
 import 'package:cs310_app/utils/global_variables.dart';
@@ -9,9 +10,12 @@ import '../globals.dart';
 import '../globals.dart';
 import '../globals.dart';
 import '../utils/colors.dart';
+import 'CreatePost.dart';
 
 class HomeScreen extends StatefulWidget{
+
   get analytics =>  analytics_glob;
+
 
 
   @override
@@ -41,6 +45,21 @@ class homeState extends State<HomeScreen>{
             letterSpacing: -1.0,
           ),
         ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyCustomForm()),
+                );},
+                child: Icon(
+                  Icons.add,
+                  size: 26.0,
+                ),
+              )
+          ),
+        ],
         backgroundColor: AppColors.headingColor,
         centerTitle: true,
       ),

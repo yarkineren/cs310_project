@@ -12,12 +12,13 @@ class AppColors {
 }
 
 class Post {
+  String Author;
   String text;
   String date;
   Set comments = {};
   Set usersLiked = {};
   DatabaseReference _id;
-  Post({ this.text, this.date, this.comments });
+  Post({this.text});
   void likePost (User user) {
     if (this.usersLiked.contains(user.uid)){
       this.usersLiked.remove(user.uid);
@@ -32,10 +33,11 @@ class Post {
   }
   Map<String,dynamic> toJson() {
     return {
+      'Author': this.Author,
       'text' : this.text,
-      'date' : this.date,
-      'comments' : this.comments.toList(),
-      'usersliked' : this.usersLiked.toList(),
+     // 'date' : this.date,
+      //'comments' : this.comments.toList(),
+      //'usersliked' : this.usersLiked.toList(),
 
     };
   }
