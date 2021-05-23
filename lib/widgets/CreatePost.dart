@@ -1,4 +1,5 @@
 import 'package:cs310_app/database.dart';
+import 'package:cs310_app/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   void new_post(String text){
-    var p= new Post(text: text);
+    var p= new Post(Author:user_glob.displayName,text: text);
     p.setId(savePost(p));
   }
   // Create a text controller and use it to retrieve the current value

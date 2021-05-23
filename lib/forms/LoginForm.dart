@@ -59,6 +59,7 @@ class Login extends State<LoginForm> {
      });
      print(user.displayName + " is signed in");
      print("Google Login Succeeded");
+     user_glob=user;
      return user;
     }
     catch(err){
