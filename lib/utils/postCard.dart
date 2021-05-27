@@ -35,7 +35,7 @@ class PostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  post.date,
+                  post.date.toString(),
                   style: TextStyle(
                     fontFamily: 'BrandonText',
                     fontSize: 16.0,

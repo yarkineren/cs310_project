@@ -7,3 +7,4 @@ DatabaseReference savePost(Post post){
   id.set(post.toJson());
   return id;//json yapıyoruz
 }
+

@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 
 class AppColors {
   static const Color primary = Colors.blueGrey;
@@ -12,13 +15,14 @@ class AppColors {
 }
 
 class Post {
+  File image;
   String Author;
   String text;
-  String date;
+  DateTime date;
   Set comments = {};
   Set usersLiked = {};
   DatabaseReference _id;
-  Post({this.Author,this.text});
+  Post({this.Author,this.text, this.date, this.image});
   void likePost (User user) {
     if (this.usersLiked.contains(user.uid)){
       this.usersLiked.remove(user.uid);

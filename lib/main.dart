@@ -9,6 +9,7 @@ import 'package:cs310_app/forms/WalkthroughForm.dart';
 import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
+import 'package:cs310_app/widgets/CreatePost.dart';
 
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
@@ -80,7 +81,6 @@ class AppBase extends StatelessWidget {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer_glob],
       home: LoginForm(analytics: analytics_glob, observer: observer_glob),
-
     );
 
   }
