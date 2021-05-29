@@ -7,6 +7,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../utils/colors.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
 
 class MyCustomForm extends StatefulWidget {
   final User user;
@@ -32,13 +38,40 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
     setState(() {
       if (picked_file != null) {
-        _image = File(picked_file.path);
+        //String filename = basename(picked_file.path);
+        File file = File(picked_file.path); //was there
+        uploadImage();
+
+        //final UploadTask uploadTask = FirebaseStorage.instance
+          //  .ref("<Bucket Name>/$filename")
+          //  .putFile(file);
+
+        //final TaskSnapshot downloadUrl = (await uploadTask);
+
+       // final String url = await downloadUrl.ref.getDownloadURL();
+
+
       } else {
         print('No image selected.');
       }
     });
   }
 
+  Future<void> uploadImage() async { //test this
+    String filename = Path.basename(_image.path);
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String filePath = '${appDocDir.absolute}/$filename';
+
+    File file = File(filePath);
+
+    final UploadTask uploadTask =FirebaseStorage.instance
+        .ref("<Bucket Name>/$filename")
+        .putFile(file);
+
+    final TaskSnapshot downloadUrl = (await uploadTask);
+
+    final String url = await downloadUrl.ref.getDownloadURL(); //url of an image
+  }
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
@@ -118,7 +151,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
             onTap: () async {
               //setState(() {
               new_post(myController.text, _image);
-             // }
+              // }
             },
             label: 'Send Post',
             labelStyle: TextStyle(
@@ -131,10 +164,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
             child: Icon(Icons.add_a_photo),
             backgroundColor: Color(0xFF801E48),
             onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PostImage()));
-            },
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PostImage()));
+              },
             label: 'Add Image',
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -146,4 +179,3 @@ class _MyCustomFormState extends State<MyCustomForm> {
   }
 
 }
-
