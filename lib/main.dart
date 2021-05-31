@@ -10,6 +10,7 @@ import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/forms/WalkthroughForm.dart';
 import 'package:cs310_app/widgets/CreatePost.dart';
+import 'package:provider/provider.dart';
 
 import 'forms/LoginForm.dart';
 import 'forms/WalkthroughForm.dart';
@@ -69,6 +70,7 @@ class MyAppState extends State<MyApp> {
     );
   }
 }
+
 
 class AppBase extends StatelessWidget {
   const AppBase({

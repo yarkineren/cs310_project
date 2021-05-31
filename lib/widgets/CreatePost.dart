@@ -3,6 +3,7 @@ import 'package:cs310_app/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../utils/colors.dart';
 import 'dart:io';
@@ -11,171 +12,342 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:cs310_app/FirebaseOperations.dart';
 
 
+class CreatePost with ChangeNotifier{
+  TextEditingController captionController = TextEditingController();
+  File uploadPostImage;
+  File get getUploadPostImage => uploadPostImage;
+  String uploadPostImageUrl;
+  String get getUploadPostImageUrl => uploadPostImageUrl;
+  final picker = ImagePicker();
+  UploadTask imagePostUploadTask;
 
-class MyCustomForm extends StatefulWidget {
-  final User user;
+  Future pickUploadPostImage(BuildContext context, ImageSource source) async
+  {
+    final uploadPostImageVal = await picker.getImage(source: source);
+    uploadPostImageVal == null ? print('Select Image'): uploadPostImage = File(uploadPostImageVal.path);
+    print(uploadPostImageVal.path);
 
-  MyCustomForm({this.user});
-  @override
-  _MyCustomFormState createState() => _MyCustomFormState();
-}
+    uploadPostImage != null ? showPostImage(context) :
+        print('Image Upload Error');
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
-class _MyCustomFormState extends State<MyCustomForm> {
-  final _formKey = GlobalKey<FormState>();
-
-  void new_post(String text, File _image){ //will work from here
-    var p= new Post(Author:user_glob.displayName,text: text, date: DateTime.now(), image: _image);
-    p.setId(savePost(p));
+    notifyListeners();
   }
 
-  Future getImage() async {
-    final picker = ImagePicker();
-    final picked_file = await picker.getImage(source: ImageSource.gallery);
+  Future uploadPostImageToFirebase() async{
+    Reference imageReference = FirebaseStorage.instance.ref().child(
+      'posts/${uploadPostImage.path}/${TimeOfDay.now()}'
+    );
 
-    setState(() {
-      if (picked_file != null) {
-        //String filename = basename(picked_file.path);
-        File file = File(picked_file.path); //was there
-        uploadImage();
-
-        //final UploadTask uploadTask = FirebaseStorage.instance
-          //  .ref("<Bucket Name>/$filename")
-          //  .putFile(file);
-
-        //final TaskSnapshot downloadUrl = (await uploadTask);
-
-       // final String url = await downloadUrl.ref.getDownloadURL();
+    imagePostUploadTask = imageReference.putFile(uploadPostImage);
+    await imagePostUploadTask.whenComplete((){
+      print('Post image uploaded to storage');
+    });
+    imageReference.getDownloadURL().then((imageUrl)
+    {
+      uploadPostImageUrl = imageUrl;
+      print(uploadPostImageUrl);
+    });
+    notifyListeners();
+  }
 
 
-      } else {
-        print('No image selected.');
-      }
+  selectPostImageType(BuildContext context)
+  {
+    return showModalBottomSheet(context: context, builder: (context)
+    {
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color:Colors.blueGrey,
+          borderRadius: BorderRadius.circular(12)
+        ),
+        child: Column(
+          children:[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 150.0),
+              child: Divider(
+                thickness: 4.0,
+                color: Colors.white,
+              )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:
+            [
+              MaterialButton(
+                  child: Text('Gallery',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0
+                  )
+                  ),
+                  onPressed: ()
+              {
+                pickUploadPostImage(context, ImageSource.gallery);
+              }),
+              MaterialButton(
+                  child: Text('Camera',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0
+                      )
+                  ),
+                  onPressed: () {
+                    pickUploadPostImage(context, ImageSource.camera);
+                  })
+
+            ],)
+          ]
+        ),
+      );
+
     });
   }
 
-  Future<void> uploadImage() async { //test this
-    String filename = Path.basename(_image.path);
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String filePath = '${appDocDir.absolute}/$filename';
-
-    File file = File(filePath);
-
-    final UploadTask uploadTask =FirebaseStorage.instance
-        .ref("<Bucket Name>/$filename")
-        .putFile(file);
-
-    final TaskSnapshot downloadUrl = (await uploadTask);
-
-    final String url = await downloadUrl.ref.getDownloadURL(); //url of an image
-  }
-
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-  final myController = TextEditingController();
-  File _image;
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: Text('Add Post'),
-        ),
-        body:postText(),
-        floatingActionButton:
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
-        _getFAB(),
-      );
-    }
-  }
-
-
-  Widget postText() {
-    {
-      return Scaffold(
-        body: TextField(
-          controller: myController,
-        ),
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field
-      );
-    }
-  }
-
-  Widget PostImage()
+  showPostImage(BuildContext context)
   {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text('Retrieve Image Input'),
-      ),
-      body: Center(
-        child: _image == null
-            ? Text('No image selected.')
-            : Image.file(_image),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
-      ),
-    );
+    return showModalBottomSheet(
+        context: context,
+        builder: (context)
+    {
+      return Container(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.38,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.circular(12)),
+          child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150.0),
+                  child: Divider(
+                    thickness: 4.0,
+                    color: Colors.white,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8.0, left: 8.0, right: 8.0),
+                  child: Container(height: 200.0,
+                      width: 400.0,
+                      child: Image.file(uploadPostImage, fit: BoxFit.contain)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MaterialButton(
+                            color: Colors.amber,
+                            child: Text('Confirm',
+                                style: TextStyle(color: Colors.white,
+                                  fontWeight: FontWeight.bold,)),
+                            onPressed: () {
+                              uploadPostImageToFirebase().whenComplete(() {
+                                editPostSheet(context);
+                                print('Image is uploaded');
+                              });
+                            }
+                        ),
+                        MaterialButton(
+                            color: Colors.amber,
+                            child: Text('Reselect',
+                                style: TextStyle(color: Colors.white,
+                                  fontWeight: FontWeight.bold,)),
+                            onPressed: () {
+                              selectPostImageType(context);
+                            }
+                        ),
+                      ]
+                  ),
+                )
+              ]
+          )
+      );
+    });
   }
 
+  selectPostImage(BuildContext context)
+  {
+    return showModalBottomSheet(context: context, builder: (context)
+    {
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color:Colors.blueGrey,
+            borderRadius: BorderRadius.circular(12)
+        ),
+        child: Column(
+            children:[
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150.0),
+                  child: Divider(
+                    thickness: 4.0,
+                    color: Colors.white,
+                  )
+              ),
+              CircleAvatar(backgroundColor: Colors.transparent,
+              radius: 60.0,
+              backgroundImage: FileImage(uploadPostImage),),
+              Row(children : [
+                MaterialButton(
+                  color: Colors.amber,
+                  child: Text('Confirm',
+                  style: TextStyle(color: Colors.white,
+                  fontWeight: FontWeight.bold,)),
+                  onPressed: () {
 
-  Widget _getFAB() {
-    return SpeedDial(
-      animatedIcon: AnimatedIcons.menu_close,
-      animatedIconTheme: IconThemeData(size: 22),
-      backgroundColor: Colors.orange,
-      visible: true,
-      curve: Curves.bounceIn,
-      children: [
-        // FAB 1
-        SpeedDialChild(
-            child: Icon(Icons.assignment_turned_in),
-            backgroundColor: Color(0xFF801E48),
-            onTap: () async {
-              //setState(() {
-              new_post(myController.text, _image);
-              // }
-            },
-            label: 'Send Post',
-            labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
-            labelBackgroundColor: Color(0xFF801E48)),
-        // FAB 2
-        SpeedDialChild(
-            child: Icon(Icons.add_a_photo),
-            backgroundColor: Color(0xFF801E48),
-            onTap: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PostImage()));
-              },
-            label: 'Add Image',
-            labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontSize: 16.0),
-            labelBackgroundColor: Color(0xFF801E48))
-      ],
-    );
+                  }
+                ),
+                MaterialButton(
+                    color: Colors.amber,
+                    child: Text('Reselect',
+                        style: TextStyle(color: Colors.white,
+                          fontWeight: FontWeight.bold,)),
+                    onPressed: (
+                        ) { selectPostImageType(context); }
+                ),
+
+              ])
+            ]
+        ),
+      );
+
+    });
+
   }
 
+  editPostSheet(BuildContext context)
+  {
+    return showModalBottomSheet(isScrollControlled: true, context: context, builder: (context) {
+
+      return Container(
+          child: Column(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 150.0),
+                    child: Divider(
+                      thickness: 4.0,
+                      color: Colors.white,
+                    )
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            IconButton(icon: Icon(Icons.image_aspect_ratio, color: Colors.deepPurple),
+                                onPressed: () {}),
+                            IconButton(icon: Icon(Icons.fit_screen, color: Colors.amberAccent),
+                                onPressed: () {})
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 200,
+                        width: 300,
+                        child: Image.file(uploadPostImage, fit: BoxFit.contain),
+                      ),
+                    ]
+                  )
+                ),
+                Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 30.0,
+                          width: 30.0,
+                        ),
+                        Container(
+                            height: 110.0,
+                            width: 5.0,
+                            color: Colors.amber
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:8.0),
+                          child: Container(
+                            height: 120.0,
+                            width: 330.0,
+                            child:TextField(
+                              maxLines: 5,
+                              textCapitalization: TextCapitalization.words,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(100),
+                              ],
+                              maxLengthEnforced: true,
+                              maxLength: 100,
+                              controller: captionController,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'give some details to us',
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              )
+
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                ),
+                MaterialButton(
+                    child: Text('Share',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0
+                    ),)
+                  ,
+                    onPressed: () async
+                {
+                  Provider.of<FirebaseOperations>(context, listen: false).uploadPostData(
+                    captionController.text, {
+                      'caption': captionController.text,
+                    'username': user_glob.displayName,
+                    //getUserImage
+                    'date': DateTime.now(),
+                  }).whenComplete(()
+                  {
+                    Navigator.pop(context);
+                  }
+                  );
+                },
+                  color: Colors.blueGrey,
+                )
+              ]
+          ),
+          height: MediaQuery.of(context).size.height * 0.75,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.blueGrey,
+            borderRadius: BorderRadius.circular(12.0),
+          )
+
+      );
+
+    });
+  }
 }

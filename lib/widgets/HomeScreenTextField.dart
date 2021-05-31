@@ -1,16 +1,21 @@
 import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
+import 'package:cs310_app/main.dart';
 import 'package:cs310_app/widgets/Profile.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/model.dart';
 import 'package:cs310_app/utils/global_variables.dart';
+import 'package:provider/provider.dart';
 import '../globals.dart';
 import '../globals.dart';
 import '../globals.dart';
 import '../utils/colors.dart';
-import 'CreatePost.dart';
+import 'package:cs310_app/widgets/CreatePost.dart';
+import 'package:cs310_app/widgets/Feed.dart';
+
+
 
 class HomeScreen extends StatefulWidget{
 
@@ -51,7 +56,7 @@ class homeState extends State<HomeScreen>{
               child: GestureDetector(
                 onTap: () {Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyCustomForm()),
+                  MaterialPageRoute(builder: (context) => Addpost()),
                 );},
                 child: Icon(
                   Icons.add,
@@ -334,4 +339,36 @@ class homeState extends State<HomeScreen>{
       ),
     );
   }
+}
+
+class Addpost extends StatelessWidget
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return MultiProvider(
+        child: MaterialApp(
+          home: SplashScreen(),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              accentColor: Colors.deepOrange,
+              fontFamily: 'Poppins',
+              canvasColor: Colors.transparent
+          ),
+        ),
+        providers: [
+          ChangeNotifierProvider(create: (_) => CreatePost()),
+        ],
+        );
+  }
+}
+
+class SplashScreen extends StatelessWidget
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return AppBase(); //WHAT TO WRITE HERE
+  }
+
 }
