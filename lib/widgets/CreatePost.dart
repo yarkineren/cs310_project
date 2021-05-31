@@ -14,9 +14,20 @@ import 'package:path_provider/path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:cs310_app/FirebaseOperations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+//gives error after this point
+Future uploadPostData(String postId, dynamic data) async
+{
+  return FirebaseFirestore.instance.collection('posts').doc(
+      postId
+  ).set(data);
+
+}
 
 
 class CreatePost with ChangeNotifier{
+
   TextEditingController captionController = TextEditingController();
   File uploadPostImage;
   File get getUploadPostImage => uploadPostImage;
@@ -180,6 +191,7 @@ class CreatePost with ChangeNotifier{
     });
   }
 
+
   selectPostImage(BuildContext context)
   {
     return showModalBottomSheet(context: context, builder: (context)
@@ -323,7 +335,7 @@ class CreatePost with ChangeNotifier{
                   ,
                     onPressed: () async
                 {
-                  Provider.of<FirebaseOperations>(context, listen: false).uploadPostData(
+                  Provider.of(context, listen: false).uploadPostData(
                     captionController.text, {
                       'caption': captionController.text,
                     'username': user_glob.displayName,
