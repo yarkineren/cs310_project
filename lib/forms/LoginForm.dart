@@ -5,7 +5,7 @@ import 'package:cs310_app/utils/colors.dart';
 import 'package:cs310_app/utils/styles.dart';
 import'package:cs310_app/widgets/UserLoginTextField.dart';
 import'package:cs310_app/widgets/ForgotPasswordTextField.dart';
-import'package:cs310_app/widgets/HomeScreenTextField.dart';
+import'package:cs310_app/widgets/Feed.dart';
 import '../model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cs310_app/widgets/HomeScreenTextField.dart';
+import 'package:cs310_app/widgets/Feed.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
