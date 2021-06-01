@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "176017609345-v23g6p9ak16fh6rn7jqc7qtmnn23josu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cs310_app",
+            "certificate_hash": "5f1ac070bb1641cb2433fc587683ff11af7baca5"
+          }
+        },
+        {
           "client_id": "176017609345-rr6495qjp7cbo9kubjsd8114f4oo4k05.apps.googleusercontent.com",
           "client_type": 3
         }
