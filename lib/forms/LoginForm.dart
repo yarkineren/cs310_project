@@ -13,6 +13,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_app/globals.dart';
+import 'package:cs310_app/database.dart';
 
 
   class LoginForm extends StatefulWidget{
@@ -80,6 +81,7 @@ class Login extends State<LoginForm> {
     await loginwith_Google();
     if(_isLoggedIn == true)
       {
+        check_profile();
         goToHomeScreen(context);
 
 

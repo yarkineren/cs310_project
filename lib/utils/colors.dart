@@ -46,3 +46,35 @@ class Post {
     };
   }
 }
+class Profile {
+  String uid;
+  String username;
+  String bio;
+  bool public = false;
+  DatabaseReference _id;
+
+
+  Profile({this.username, this.bio, this.public});
+
+  void setId(DatabaseReference id) {
+    this._id = id;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': this.uid,
+      'username': this.username,
+      'bio': this.bio,
+      'public': this.public,
+
+    };
+  }
+
+  Profile createProfile(record) {//bu burada dursun belki işe yarar
+    Map<String, dynamic> attributes = {
+      'uid': '',
+      'usersLiked': [],
+      'body': ''
+    };
+  }
+}

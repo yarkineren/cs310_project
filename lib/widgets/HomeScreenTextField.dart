@@ -503,6 +503,7 @@ class Addpost extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+
     return ChangeNotifierProvider<CreatePost>(create: (_)
     {
       return CreatePost();
