@@ -17,17 +17,17 @@ import 'package:cs310_app/FirebaseOperations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //gives error after this point
-Future uploadPostData(String postId, dynamic data) async
+Future<int> uploadPostData(String postId, dynamic data) async
 {
-  return FirebaseFirestore.instance.collection('posts').doc(
+  FirebaseFirestore.instance.collection('posts').doc(
       postId
   ).set(data);
 
+  return 1;
 }
 
 
 class CreatePost with ChangeNotifier{
-
   TextEditingController captionController = TextEditingController();
   File uploadPostImage;
   File get getUploadPostImage => uploadPostImage;
@@ -35,6 +35,7 @@ class CreatePost with ChangeNotifier{
   String get getUploadPostImageUrl => uploadPostImageUrl;
   final picker = ImagePicker();
   UploadTask imagePostUploadTask;
+
 
   Future pickUploadPostImage(BuildContext context, ImageSource source) async
   {
@@ -246,9 +247,8 @@ class CreatePost with ChangeNotifier{
   editPostSheet(BuildContext context)
   {
     return showModalBottomSheet(isScrollControlled: true, context: context, builder: (context) {
-
-      return Container(
-          child: Column(
+      return  Container(
+          child:  Column(
               children: [
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 150.0),
@@ -260,16 +260,6 @@ class CreatePost with ChangeNotifier{
                 Container(
                   child: Row(
                     children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            IconButton(icon: Icon(Icons.image_aspect_ratio, color: Colors.deepPurple),
-                                onPressed: () {}),
-                            IconButton(icon: Icon(Icons.fit_screen, color: Colors.amberAccent),
-                                onPressed: () {})
-                          ],
-                        ),
-                      ),
                       Container(
                         height: 200,
                         width: 300,
@@ -335,17 +325,19 @@ class CreatePost with ChangeNotifier{
                   ,
                     onPressed: () async
                 {
-                  Provider.of(context, listen: false).uploadPostData(
+                  print(uploadPostImageUrl);
+                  final a  =  await uploadPostData(
                     captionController.text, {
                       'caption': captionController.text,
                     'username': user_glob.displayName,
-                    //getUserImage
+                    'image': uploadPostImageUrl,
                     'date': DateTime.now(),
                   }).whenComplete(()
                   {
                     Navigator.pop(context);
                   }
                   );
+
                 },
                   color: Colors.blueGrey,
                 )
