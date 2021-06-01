@@ -54,7 +54,7 @@ class Profile {
   DatabaseReference _id;
 
 
-  Profile({this.username, this.bio, this.public});
+  Profile( this.uid,this.username, this.bio, this.public);
 
   void setId(DatabaseReference id) {
     this._id = id;
@@ -70,11 +70,16 @@ class Profile {
     };
   }
 
-  Profile createProfile(record) {//bu burada dursun belki işe yarar
-    Map<String, dynamic> attributes = {
-      'uid': '',
-      'usersLiked': [],
-      'body': ''
-    };
-  }
+}
+Profile createProfile(record) {//bu burada dursun belki işe yarar
+  Map<String, dynamic> attributes = {
+    'uid': '',
+    'username': '',
+    'bio': '',
+    'public': '',
+  };
+  record.forEach((key, value) => {attributes[key] = value});
+
+  Profile post = new Profile(attributes['uid'], attributes['username'],attributes['bio'],attributes['public']);
+  return post;
 }

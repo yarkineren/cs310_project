@@ -27,18 +27,21 @@ void saveProfile(Profile profile){
   return;
 }
 Future<void> check_profile() async{
+  List<Profile> plist = [];
   DataSnapshot dataSnapshot = await databaseRef.child('profiles/').once();
   print("alddım aldım ");
   if(dataSnapshot.value != null){
     dataSnapshot.value.forEach((key, value) {
-      if(value['uid']==user_glob.uid){
-        return;
-        //bişi yapmaya gerek yok direk profili açınca çekeriz
-      }
-
+      Profile prof = createProfile(value);
+      plist.add(prof);
     });
-    var prof = Profile(username: user_glob.displayName,bio: "write what describes you best",public: true);
+    for(int i =0;i<plist.length;i++){
+      if(plist[i].uid == user_glob.uid)
+        return;
+    }
+    var prof = Profile(user_glob.uid,user_glob.displayName, "write what describes you best", true);
     saveProfile(prof);
+    return;
 
   }
 
