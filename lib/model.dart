@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Customer {
   //TAX-ID?
@@ -167,5 +168,22 @@ class Customer_Review
   int comments;
 
   Customer_Review({this.text, this.date, this.likes, this.comments });
+
+}
+
+class Posts
+{
+  String image;
+  String caption;
+  String username;
+  Timestamp date;
+
+  Posts.fromMap(Map<String, dynamic> data)
+  {
+    image = data['image'];
+    caption = data['caption'];
+    username = data['username'];
+    date = data['date'];
+  }
 
 }

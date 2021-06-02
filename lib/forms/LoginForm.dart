@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:cs310_app/globals.dart';
 import 'package:cs310_app/database.dart';
 
-
   class LoginForm extends StatefulWidget{
     const LoginForm({Key key, this.analytics, this.observer}) : super(key: key);
 
@@ -82,6 +81,7 @@ class Login extends State<LoginForm> {
     if(_isLoggedIn == true)
       {
         check_profile();
+
         goToHomeScreen(context);
 
 
@@ -98,6 +98,10 @@ class Login extends State<LoginForm> {
     _setCurrentScreen();
     Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()),);
   }
+
+
+
+
   //void getData() async{
   //Future.delayed(Duration(seconds:3), ()
 

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cs310_app/forms/ExploreForm.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/main.dart';
@@ -10,9 +12,46 @@ import 'package:cs310_app/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 import '../globals.dart';
 import '../globals.dart';
-import '../globals.dart';
+import '../model.dart';
 import '../utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_app/widgets/CreatePost.dart';
+
+
+class PostsNotifier with ChangeNotifier
+{
+  List<Posts> _postsList = [];
+  Posts _currentPost;
+
+  UnmodifiableListView<Posts> get postsList => UnmodifiableListView(_postsList);
+
+  Posts get currentPost => _currentPost;
+
+  set postsList(List<Posts> postsList)
+  {
+    _postsList = postsList;
+    notifyListeners();
+  }
+
+  set currentPost(Posts post)
+  {
+    _currentPost = post;
+    notifyListeners();
+  }
+
+}
+
+getPosts(PostsNotifier postsNotifier) async{
+  QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('posts').get();
+
+  List<Posts> _postList2 = [];
+  snapshot.docs.forEach((document)
+  {
+    Posts post = Posts.fromMap(document.data());
+    _postList2.add(post);
+  });
+ // PostsNotifier.postsList = _postList2;
+}
 
 class HomeScreen2 extends StatefulWidget{
 
@@ -24,6 +63,12 @@ class HomeScreen2 extends StatefulWidget{
   }
 }
 class homeState extends State<HomeScreen2>{
+  //@override
+  //void initState()
+  //{
+   // PostsNotifier postNotifier = Provider.of<PostsNotifier>(context, listen: false);
+   // super.initState();
+  //}
   Future<void> _setCurrentScreen1() async {
     await widget.analytics.setCurrentScreen(screenName: 'Profile');
   }
@@ -33,9 +78,12 @@ class homeState extends State<HomeScreen2>{
   Future<void> _setCurrentScreen3() async {
     await widget.analytics.setCurrentScreen(screenName: 'log in');
   }
+
   @override
   Widget build(BuildContext context)
   {
+    //PostsNotifier postNotifier = Provider.of<PostsNotifier>(context);
+   // PostsNotifier.getPosts();
     return Scaffold(
       drawer: Drawer(
       elevation: 10,
@@ -176,20 +224,113 @@ class homeState extends State<HomeScreen2>{
               )
           )
       ),
-      body: new SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          width: MediaQuery.of(context). size.width,
-          decoration: BoxDecoration(
-              color: Colors.deepOrangeAccent,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0))
-          ),
-        ),
-      ),
+      backgroundColor: Colors.deepOrangeAccent.shade200,
+      body: SingleChildScrollView(
+          child: Container(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('posts')
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                if (streamSnapshot.hasError) {
+                  return Center(child: Text('Something went wrong'));
+                }
+                if (streamSnapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: Align(
+                        alignment: Alignment.center,
+                    child: CircularProgressIndicator()
+                    ),
+                  );
+                }
+                return Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: streamSnapshot.data.docs.length,
+                    itemBuilder: (context, index) =>
+                     AspectRatio(
+                    aspectRatio: 5 / 2,
+                    child: Card(
+                      elevation: 2,
+                        child: Column(children: <Widget>[
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                flex: 3,
+                                  child: Row(
+                                    children: <Widget> [
+                                      Expanded(flex: 2, child: Image.network(
+                                          streamSnapshot.data.docs[index]['image'],
+                                          fit: BoxFit.fill),),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 4.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(streamSnapshot.data.docs[index]['caption']),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          //
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage('assets/fun.jpg'),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(streamSnapshot.data.docs[index]['username']),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex:2,
+                                child: Text("1.06.2021"), //add dynamic date
+                              )
+                            ],
+                          )
+                        ]),
+                    ),
+                  ),
+
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(color: Colors.black,);
+                    },
+                  ),
+                );
+              },
+            ),
+          )),
     );
   }
-
 }
+
+
+
 
 class HomeScreen extends StatefulWidget{
 
@@ -212,6 +353,31 @@ class Addpost extends State<HomeScreen>
       return CreatePost();
     },
     child: HomeScreen2(),
+    );
+  }
+}
+
+class PostsScreen extends StatefulWidget{
+
+  get analytics =>  analytics_glob;
+
+  @override
+  State<StatefulWidget> createState(){
+    return PostsSet();
+  }
+}
+
+
+class PostsSet extends State<PostsScreen>
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return ChangeNotifierProvider<PostsNotifier>(create: (_)
+    {
+      return PostsNotifier();
+    },
+      child: HomeScreen2(),
     );
   }
 }
