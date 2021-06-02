@@ -171,19 +171,104 @@ class Customer_Review
 
 }
 
-class Posts
+class Posts extends StatelessWidget
 {
   String image;
   String caption;
   String username;
   Timestamp date;
 
-  Posts.fromMap(Map<String, dynamic> data)
+  Posts({this.image, this.caption, this.username, this.date});
+
+  factory Posts.fromDocument(DocumentSnapshot document)
   {
-    image = data['image'];
-    caption = data['caption'];
-    username = data['username'];
-    date = data['date'];
+    return Posts(image : document['image']
+    , caption : document['caption'],
+  username : document['username'], date : document['date']);
   }
 
-}
+
+  getPosts() async {
+    List<Posts> items = [];
+    var snap = await FirebaseFirestore.instance
+        .collection('posts').get();
+
+    for (var doc in snap.docs) {
+      items.add(Posts.fromDocument(doc));
+    }
+    return items;
+  }
+
+
+  @override
+  Widget build(BuildContext context)
+  {
+   return AspectRatio(
+      aspectRatio: 5 / 2,
+      child: Card(
+        elevation: 2,
+        child: Column(children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 3,
+                    child: Row(
+                      children: <Widget> [
+                        Expanded(flex: 2, child: Image.network(
+                            image,
+                            fit: BoxFit.fill),),
+                        Expanded(
+                          flex: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(caption),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                ),
+              ],
+            ),
+          ),
+
+          //
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/fun.jpg'),
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(username),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex:2,
+                child: Text("1.06.2021"), //add dynamic date
+              )
+            ],
+          )
+        ]),
+      ),
+    );
+  }
+  }

@@ -33,6 +33,17 @@ class homeState extends State<HomeScreen2>{
    // PostsNotifier postNotifier = Provider.of<PostsNotifier>(context, listen: false);
    // super.initState();
   //}
+  getPosts() async {
+    List<Posts> items = [];
+    var snap = await FirebaseFirestore.instance
+        .collection('posts').get();
+
+    for (var doc in snap.docs) {
+      items.add(Posts.fromDocument(doc));
+    }
+    return items;
+  }
+
   Future<void> _setCurrentScreen1() async {
     await widget.analytics.setCurrentScreen(screenName: 'Profile');
   }
@@ -191,109 +202,28 @@ class homeState extends State<HomeScreen2>{
       backgroundColor: Colors.deepOrangeAccent.shade200,
       body: SingleChildScrollView(
           child: Container(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('posts')
-                  .snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                if (streamSnapshot.hasError) {
-                  return Center(child: Text('Something went wrong'));
-                }
-                if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Align(
-                        alignment: Alignment.center,
-                    child: CircularProgressIndicator()
-                    ),
-                  );
-                }
-                return Expanded(
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: streamSnapshot.data.docs.length,
-                    itemBuilder: (context, index) =>
-                     AspectRatio(
-                    aspectRatio: 5 / 2,
-                    child: Card(
-                      elevation: 2,
-                        child: Column(children: <Widget>[
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                flex: 3,
-                                  child: Row(
-                                    children: <Widget> [
-                                      Expanded(flex: 2, child: Image.network(
-                                          streamSnapshot.data.docs[index]['image'],
-                                          fit: BoxFit.fill),),
-                                      Expanded(
-                                        flex: 3,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 4.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(streamSnapshot.data.docs[index]['caption']),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          //
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage('assets/fun.jpg'),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(streamSnapshot.data.docs[index]['username']),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex:2,
-                                child: Text("1.06.2021"), //add dynamic date
-                              )
-                            ],
-                          )
-                        ]),
-                    ),
-                  ),
-
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider(color: Colors.black,);
-                    },
-                  ),
-                );
-              },
-            ),
+            child: FutureBuilder(
+                future: getPosts(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Container(
+                        alignment: FractionalOffset.center,
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: CircularProgressIndicator());
+                  else {
+                    return Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        children: snapshot.data
+                      ),
+                    );
+                  }
+                }),
           )),
     );
   }
 }
-
-
 
 
 class HomeScreen extends StatefulWidget{
