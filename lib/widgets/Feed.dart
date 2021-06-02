@@ -17,42 +17,6 @@ import '../utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_app/widgets/CreatePost.dart';
 
-
-class PostsNotifier with ChangeNotifier
-{
-  List<Posts> _postsList = [];
-  Posts _currentPost;
-
-  UnmodifiableListView<Posts> get postsList => UnmodifiableListView(_postsList);
-
-  Posts get currentPost => _currentPost;
-
-  set postsList(List<Posts> postsList)
-  {
-    _postsList = postsList;
-    notifyListeners();
-  }
-
-  set currentPost(Posts post)
-  {
-    _currentPost = post;
-    notifyListeners();
-  }
-
-}
-
-getPosts(PostsNotifier postsNotifier) async{
-  QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('posts').get();
-
-  List<Posts> _postList2 = [];
-  snapshot.docs.forEach((document)
-  {
-    Posts post = Posts.fromMap(document.data());
-    _postList2.add(post);
-  });
- // PostsNotifier.postsList = _postList2;
-}
-
 class HomeScreen2 extends StatefulWidget{
 
   get analytics =>  analytics_glob;
@@ -353,31 +317,6 @@ class Addpost extends State<HomeScreen>
       return CreatePost();
     },
     child: HomeScreen2(),
-    );
-  }
-}
-
-class PostsScreen extends StatefulWidget{
-
-  get analytics =>  analytics_glob;
-
-  @override
-  State<StatefulWidget> createState(){
-    return PostsSet();
-  }
-}
-
-
-class PostsSet extends State<PostsScreen>
-{
-  @override
-  Widget build(BuildContext context)
-  {
-    return ChangeNotifierProvider<PostsNotifier>(create: (_)
-    {
-      return PostsNotifier();
-    },
-      child: HomeScreen2(),
     );
   }
 }
