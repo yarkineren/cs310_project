@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -47,30 +48,34 @@ class Post {
   }
 }
 class Profile {
-  String uid;
+  String image;
   String username;
   String bio;
+  List followers = [];
+  List following = [];
   bool public = false;
-  DatabaseReference _id;
 
 
-  Profile( this.uid,this.username, this.bio, this.public);
-
-  void setId(DatabaseReference id) {
-    this._id = id;
+  Profile( this.image,this.username, this.bio, this.public,this.followers,this.following);
+  factory Profile.fromDocument(DocumentSnapshot document)
+  {
+    return Profile(document['image'],document['username'],document['bio'],document['public'],document['followers'],document['following']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'uid': this.uid,
+      'image': this.image,
       'username': this.username,
       'bio': this.bio,
       'public': this.public,
+      'followers': this.followers,
+      'following': this.following,
 
     };
   }
 
 }
+/*
 Profile createProfile(record) {//bu burada dursun belki işe yarar
   Map<String, dynamic> attributes = {
     'uid': '',
@@ -83,3 +88,5 @@ Profile createProfile(record) {//bu burada dursun belki işe yarar
   Profile post = new Profile(attributes['uid'], attributes['username'],attributes['bio'],attributes['public']);
   return post;
 }
+
+ */

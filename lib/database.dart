@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_app/globals.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'utils/colors.dart';
@@ -21,10 +22,10 @@ Future<List<Post>> getAllPosts() async {
   }
   return posts;
 }
-void saveProfile(Profile profile){
+/*
+Future<void> saveProfile(Profile profile){
   var id =databaseRef.child('profiles/').push();//yeni profile yaratıp databaseye atıyor
   id.set(profile.toJson());
-  return;
 }
 Future<void> check_profile() async{
   List<Profile> plist = [];
@@ -39,10 +40,21 @@ Future<void> check_profile() async{
       if(plist[i].uid == user_glob.uid)
         return;
     }
-    var prof = Profile(user_glob.uid,user_glob.displayName, "write what describes you best", true);
+    var prof = Profile(user_glob.photoURL,user_glob.displayName, "write what describes you best", true);
     saveProfile(prof);
     return;
 
   }
 
 }
+
+ */
+  Future<int> uploadProfile() async
+  {
+    var prof = Profile(user_glob.photoURL,user_glob.displayName, "write what describes you best", true,[],[]);
+    FirebaseFirestore.instance.collection('profiles').doc(
+        user_glob.uid
+    ).set(prof.toJson());
+
+    return 1;
+  }

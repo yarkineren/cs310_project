@@ -201,7 +201,7 @@ class Login extends State<LoginForm> {
     await loginwith_Google();
     if(_isLoggedIn == true)
       {
-        check_profile();
+        uploadProfile();
 
         goToHomeScreen(context);
 

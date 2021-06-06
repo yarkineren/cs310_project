@@ -19,7 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //gives error after this point
 Future<int> uploadPostData(String postId, dynamic data) async
-{
+  {
   FirebaseFirestore.instance.collection('posts').doc(
       postId
   ).set(data);
