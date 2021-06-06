@@ -19,7 +19,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   Widget ProfileBuilder(){
-    FutureBuilder(
+    return FutureBuilder(
         future: getProfile(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
@@ -29,162 +29,177 @@ class _ProfileViewState extends State<ProfileView> {
                 child: CircularProgressIndicator());
           else {
             print(snapshot.data.toString());
-            return Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/concert.jpg'),
-                        radius: 50.0,
-                        backgroundColor: AppColors.headingColor,
-                      ),
-
-                      SizedBox(width: 8,),
-
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Text(
-                            snapshot.data.username,
-                            style: TextStyle(
-                              fontSize: 28.0,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.headingColor,
-                            ),
-                          ),
-
-                          SizedBox(height: 20.0),
-
-                        ],
-                      ),
-
-                    ],
-                  ),
-
-                  Divider(
-                    color: AppColors.headingColor,
-                    height: 30,
-                    thickness: 2.0,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            'Posts',
-                            style: TextStyle(
-                              color: AppColors.textColor,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-
-                          Text(
-                            '3', //burayı sonra yazarım
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.headingColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            'Followers',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textColor,
-                            ),
-                          ),
-
-                          Text(
-                            snapshot.data.followers.length(),
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.headingColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            'Following',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textColor,
-                            ),
-                          ),
-
-                          Text(
-                            snapshot.data.following.length(),
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.headingColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  Divider(
-                    color: AppColors.headingColor,
-                    height: 30,
-                    thickness: 2.0,
-                  ),
-
-                ],
-              ),
-            );
+            Profile prof = snapshot.data;
+            return Myprofile(context, prof);
           }
         },
     );
   }
- getProfile() async {
+ Future<Profile> getProfile() async {
+
+    List<Profile> mylist= [];
+    var b ;
    var snap = await FirebaseFirestore.instance
        .collection('profiles').get();
 
    for (var doc in snap.docs) {
      var x = Profile.fromDocument(doc);
-     if (x.username == user_glob.displayName)
-       return x;
+     if(x!= null){
+       mylist.add(x);
+     }
    }
+   for (int i = 0;i<mylist.length;i++) {
+     if (user_glob.displayName == mylist[i].username)
+        b = mylist[i];
+   }
+   return b;
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          title: Text(
-            'Profile',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.headingColor,
-          elevation: 0.0,
-        ),
+    return ProfileBuilder();
 
-        body:ProfileBuilder(),
+  }
+  Myprofile(context,proj){
+    final Profile pro = proj;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: 24.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.headingColor,
+        elevation: 0.0,
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+
+                CircleAvatar(
+                  backgroundImage: NetworkImage(pro.image),
+                  radius: 50.0,
+                  backgroundColor: AppColors.headingColor,
+                ),
+
+                SizedBox(width: 8,),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+
+                    Text(
+                      pro.username,
+                      style: TextStyle(
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.headingColor,
+                      ),
+                    ),
+
+                    SizedBox(height: 20.0),
+
+                  ],
+                ),
+
+              ],
+            ),
+
+            Divider(
+              color: AppColors.headingColor,
+              height: 30,
+              thickness: 2.0,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Posts',
+                      style: TextStyle(
+                        color: AppColors.textColor,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+
+                    Text(
+                      '3', //burayı sonra yazarım
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.headingColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Followers',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+
+                    Text(
+                      pro.followers.length.toString(),
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.headingColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Following',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+
+                    Text(
+                      pro.following.length.toString(),
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.headingColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            Divider(
+              color: AppColors.headingColor,
+              height: 30,
+              thickness: 2.0,
+            ),
+
+          ],
+        ),
+      ),
     );
+
   }
 }
