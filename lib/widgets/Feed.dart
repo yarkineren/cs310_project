@@ -17,6 +17,78 @@ import '../utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_app/widgets/CreatePost.dart';
 
+class FeedHelpers with ChangeNotifier{
+  Widget appBar(BuildContext context){
+    return AppBar(
+        backgroundColor: Colors.deepOrangeAccent.withOpacity(0.6),
+        centerTitle: true,
+        actions: [
+          IconButton(icon: Icon(Icons.camera_enhance_rounded), color: Colors.deepPurple, onPressed: (){
+            Provider.of<CreatePost>(context, listen:false).selectPostImageType(context);
+          },)
+        ],
+        title: RichText(
+            text: TextSpan(
+                text: 'Event',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Buddy',
+                      style: TextStyle(
+                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      )
+                  )
+                ]
+            )
+        )
+    );
+  }
+
+  Widget feedBody(BuildContext context){
+
+    getPosts() async {
+      List<Posts> items = [];
+      var snap = await FirebaseFirestore.instance
+          .collection('posts').get();
+
+      for (var doc in snap.docs) {
+        items.add(Posts.fromDocument(doc));
+      }
+      return items;
+    }
+
+    return SingleChildScrollView(
+        child: Container(
+          child: FutureBuilder(
+              future: getPosts(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Container(
+                      alignment: FractionalOffset.center,
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: CircularProgressIndicator());
+                else {
+                  return Expanded(
+                    child: ListView(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        children: snapshot.data
+                    ),
+                  );
+                }
+              }),
+        ));
+  }
+}
+
+
+
 class HomeScreen2 extends StatefulWidget{
 
   get analytics =>  analytics_glob;
@@ -27,22 +99,6 @@ class HomeScreen2 extends StatefulWidget{
   }
 }
 class homeState extends State<HomeScreen2>{
-  //@override
-  //void initState()
-  //{
-   // PostsNotifier postNotifier = Provider.of<PostsNotifier>(context, listen: false);
-   // super.initState();
-  //}
-  getPosts() async {
-    List<Posts> items = [];
-    var snap = await FirebaseFirestore.instance
-        .collection('posts').get();
-
-    for (var doc in snap.docs) {
-      items.add(Posts.fromDocument(doc));
-    }
-    return items;
-  }
 
   Future<void> _setCurrentScreen1() async {
     await widget.analytics.setCurrentScreen(screenName: 'Profile');
@@ -170,61 +226,12 @@ class homeState extends State<HomeScreen2>{
           ]
       ),
     ),
-      appBar: new AppBar(
-          backgroundColor: Colors.deepOrangeAccent.withOpacity(0.6),
-          centerTitle: true,
-          actions: [
-            IconButton(icon: Icon(Icons.camera_enhance_rounded), color: Colors.deepPurple, onPressed: (){
-              Provider.of<CreatePost>(context, listen:false).selectPostImageType(context);
-            },)
-          ],
-          title: RichText(
-              text: TextSpan(
-                  text: 'Event',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'Buddy',
-                        style: TextStyle(
-                          color: Colors.deepPurple,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        )
-                    )
-                  ]
-              )
-          )
-      ),
+      appBar: Provider.of<FeedHelpers>(context,listen:false).appBar(context),
       backgroundColor: Colors.deepOrangeAccent.shade200,
-      body: SingleChildScrollView(
-          child: Container(
-            child: FutureBuilder(
-                future: getPosts(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Container(
-                        alignment: FractionalOffset.center,
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: CircularProgressIndicator());
-                  else {
-                    return Expanded(
-                      child: ListView(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        children: snapshot.data
-                      ),
-                    );
-                  }
-                }),
-          )),
+      body: Provider.of<FeedHelpers>(context,listen:false).feedBody(context),
     );
   }
 }
-
 
 class HomeScreen extends StatefulWidget{
 

@@ -180,23 +180,24 @@ class Posts extends StatelessWidget
 
   Posts({this.image, this.caption, this.username, this.date});
 
+  Future addLike(DocumentSnapshot document, BuildContext context, String postId, String subDocId) async
+  {
+    return FirebaseFirestore.instance.collection('posts').doc(postId).collection('likes').doc(subDocId).set({
+      'likes': FieldValue.increment(1),
+      'username': document['username'],
+    });
+
+  }
+
+  Future addComment()
+  {
+
+  }
   factory Posts.fromDocument(DocumentSnapshot document)
   {
     return Posts(image : document['image']
     , caption : document['caption'],
   username : document['username'], date : document['date']);
-  }
-
-
-  getPosts() async {
-    List<Posts> items = [];
-    var snap = await FirebaseFirestore.instance
-        .collection('posts').get();
-
-    for (var doc in snap.docs) {
-      items.add(Posts.fromDocument(doc));
-    }
-    return items;
   }
 
 

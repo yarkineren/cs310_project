@@ -1,4 +1,5 @@
 import 'package:cs310_app/database.dart';
+import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -330,8 +331,9 @@ class CreatePost with ChangeNotifier{
                     captionController.text, {
                       'caption': captionController.text,
                     'username': user_glob.displayName,
+                    'useruid' : Provider.of<Authentication>(context, listen:false).UserUid,
                     'image': uploadPostImageUrl,
-                    'date': DateTime.now(),
+                    'date': Timestamp.now(),
                   }).whenComplete(()
                   {
                     Navigator.pop(context);
