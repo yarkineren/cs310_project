@@ -95,7 +95,7 @@ class PostFunctions with ChangeNotifier{
                               child: Card(
                                 elevation: 4.0,
                                 child: ListTile(
-                                  leading: Image.network(user_glob.photoURL,fit: BoxFit.cover,),
+                                  leading: Image.network(documentSnapshot['proimage'],fit: BoxFit.cover,),
                                   title: Text(documentSnapshot['comment']),
                                   trailing: Wrap(
                                       spacing: 12,
