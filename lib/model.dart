@@ -3,7 +3,10 @@ import 'package:cs310_app/utils/PostOptions.dart';
 import 'package:flutter/material.dart';
 import'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
+
+import 'forms/LoginForm.dart';
 
 class Customer {
   //TAX-ID?
@@ -193,10 +196,7 @@ class Posts extends StatelessWidget
 
   }
 
-  Future addComment()
-  {
 
-  }
   factory Posts.fromDocument(DocumentSnapshot document)
   {
     return Posts(proimage: document['proimage'],image : document['image']
@@ -208,6 +208,13 @@ class Posts extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    Future<bool> onLikeButtonTapped(bool isLiked) async{
+      print('Adding like...');
+      Provider.of<PostFunctions>(context, listen:false).addLike(context, this,
+          Provider.of<Authentication>(context, listen:false).userUid);
+
+      return !isLiked;
+    }
    return AspectRatio(
       aspectRatio: 5 / 2,
       child: Card(
@@ -271,13 +278,14 @@ class Posts extends StatelessWidget
                 child: Container(
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: ()
-                          {
-                            //Provider.of<PostFunctions>(context, listen:false).addLike(context, this);
-                          },
-                          child: Icon(Icons.thumb_up_alt_sharp,
-                              size: 22.0),
+                        LikeButton(
+                          onTap: onLikeButtonTapped,
+                          likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.thumb_up_outlined,
+                            color: isLiked ? Colors.deepOrangeAccent : Colors.grey,
+                          );
+                        },
                         ),
                         SizedBox(width: 20,),
                         GestureDetector(

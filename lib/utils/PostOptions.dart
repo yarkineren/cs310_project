@@ -9,9 +9,9 @@ import '../globals.dart';
 
 class PostFunctions with ChangeNotifier{
   TextEditingController commentController = TextEditingController();
-  Future addLike(BuildContext context, String postId, String subDocId) async
+  Future addLike(BuildContext context, Posts postId, String subDocId) async
   {
-    return FirebaseFirestore.instance.collection('posts').doc(postId)
+    return FirebaseFirestore.instance.collection('posts').doc(postId.caption)
         .collection('likes').doc(subDocId).set({
       'likes':FieldValue.increment(1),
       'username': user_glob.displayName,
