@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../globals.dart';
 
 class PostFunctions with ChangeNotifier{
+  TextEditingController commentController = TextEditingController();
   Future addLike(BuildContext context, String postId, String subDocId) async
   {
     return FirebaseFirestore.instance.collection('posts').doc(postId)
@@ -53,16 +54,20 @@ class PostFunctions with ChangeNotifier{
               ),
             ),
             Container(
+              width: 100,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: Center (
-                child: Text('Comments', style: TextStyle(
-                  color: Colors.deepOrangeAccent,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                )),
+                borderRadius: BorderRadius.circular(5.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center (
+                  child:
+                  Text('Comments', style: TextStyle(
+                    color: Colors.deepOrangeAccent,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  )),
+                ),
               ),
             ),
             Container(
@@ -105,9 +110,46 @@ class PostFunctions with ChangeNotifier{
 
                   }
                 },
-            )
 
-            )
+            ),
+            ),
+            SizedBox(height: 10.0,),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 300.0,
+                    height: 20.0,
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        hintText: 'Add Comment...',
+                      ),
+                      controller: commentController,
+                      style:TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )
+                    )
+                  )
+                ]
+              )
+            ),
+            FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.comment, color: Colors.deepPurpleAccent),
+                onPressed: ()
+            {
+              print('Adding Comment...');
+              addComment(
+                context,
+                post.caption,
+                commentController.text,
+              );
+            })
           ],
         ),
         decoration: BoxDecoration(
