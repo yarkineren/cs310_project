@@ -287,6 +287,32 @@ class Posts extends StatelessWidget
                           );
                         },
                         ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection(
+                            'posts').doc(this.caption).collection('likes')
+                              .snapshots(),
+                          builder: (context, snapshot)
+                            {
+                              if(snapshot.connectionState == ConnectionState.waiting)
+                                {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              else
+                                {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(snapshot.data.docs.length.toString(),
+                                    style: TextStyle(
+                                      color: Colors.deepOrangeAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0
+                                    ))
+                                  );
+                                }
+                            }
+                        ),
                         SizedBox(width: 20,),
                         GestureDetector(
                           onTap: ()
@@ -296,6 +322,7 @@ class Posts extends StatelessWidget
                           child: Icon(Icons.comment,
                           size: 22.0),
                         ),
+
                       ],
                     )
                 ), //add dynamic date
