@@ -273,6 +273,15 @@ class Posts extends StatelessWidget
                       children: [
                         GestureDetector(
                           onTap: ()
+                          {
+                            //Provider.of<PostFunctions>(context, listen:false).addLike(context, this);
+                          },
+                          child: Icon(Icons.thumb_up_alt_sharp,
+                              size: 22.0),
+                        ),
+                        SizedBox(width: 20,),
+                        GestureDetector(
+                          onTap: ()
                               {
                                 Provider.of<PostFunctions>(context, listen:false).showCommentsSheet(context, this);
                               },

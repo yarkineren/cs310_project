@@ -59,16 +59,13 @@ class PostFunctions with ChangeNotifier{
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(5.0)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center (
-                  child:
-                  Text('Comments', style: TextStyle(
-                    color: Colors.deepOrangeAccent,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  )),
-                ),
+              child: Center (
+                child:
+                Text('Comments', style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                )),
               ),
             ),
             Container(
