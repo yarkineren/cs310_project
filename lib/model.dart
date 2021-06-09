@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:cs310_app/utils/PostOptions.dart';
 import 'package:flutter/material.dart';
 import'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class Customer {
   //TAX-ID?
@@ -265,7 +267,20 @@ class Posts extends StatelessWidget
               ),
               Expanded(
                 flex:2,
-                child: Text("1.06.2021"), //add dynamic date
+                child: Container(
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: ()
+                              {
+                                Provider.of<PostFunctions>(context, listen:false).showCommentsSheet(context, this);
+                              },
+                          child: Icon(Icons.comment,
+                          size: 22.0),
+                        ),
+                      ],
+                    )
+                ), //add dynamic date
               )
             ],
           )

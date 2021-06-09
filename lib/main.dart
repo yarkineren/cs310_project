@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cs310_app/utils/PostOptions.dart';
 import 'package:cs310_app/widgets/Feed.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -76,7 +77,7 @@ class MyAppState extends State<MyApp> {
                   ChangeNotifierProvider(create: (_) => CreatePost()),
                   ChangeNotifierProvider(create: (_) => Authentication()),
                   ChangeNotifierProvider(create: (_) => FeedHelpers()),
-
+                  ChangeNotifierProvider(create: (_) => PostFunctions()),
                 ]
             );
           }
