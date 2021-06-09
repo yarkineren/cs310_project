@@ -48,6 +48,7 @@ class Post {
   }
 }
 class Profile {
+  String uid;
   String image;
   String username;
   String bio;
@@ -56,14 +57,15 @@ class Profile {
   bool public = false;
 
 
-  Profile( this.image,this.username, this.bio, this.public,this.followers,this.following);
+  Profile(this.uid, this.image,this.username, this.bio, this.public,this.followers,this.following);
   factory Profile.fromDocument(DocumentSnapshot document)
   {
-    return Profile(document['image'],document['username'],document['bio'],document['public'],document['followers'],document['following']);
+    return Profile(document['uid'],document['image'],document['username'],document['bio'],document['public'],document['followers'],document['following']);
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': this.uid,
       'image': this.image,
       'username': this.username,
       'bio': this.bio,

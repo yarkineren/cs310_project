@@ -37,6 +37,7 @@ class Authentication with ChangeNotifier{
       user_glob=user;
       userUid = user.uid;
       notifyListeners();
+      uploadProfile();
     }
     catch(err){
       print(err);

@@ -130,7 +130,6 @@ class homeState extends State<HomeScreen2>{
 
               accountEmail: Text(signup_mail),
               currentAccountPicture: CircleAvatar(
-
                 backgroundImage: AssetImage('assets/fun.jpg'),
                 radius: 120,
               ),

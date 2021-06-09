@@ -177,8 +177,9 @@ class Posts extends StatelessWidget
   String caption;
   String username;
   Timestamp date;
+  String useruid;
 
-  Posts({this.image, this.caption, this.username, this.date});
+  Posts({this.image, this.caption, this.username, this.date,this.useruid});
 
   Future addLike(DocumentSnapshot document, BuildContext context, String postId, String subDocId) async
   {
@@ -197,7 +198,7 @@ class Posts extends StatelessWidget
   {
     return Posts(image : document['image']
     , caption : document['caption'],
-  username : document['username'], date : document['date']);
+  username : document['username'], date : document['date'],useruid: document['useruid'],);
   }
 
 
