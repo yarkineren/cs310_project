@@ -328,7 +328,9 @@ class CreatePost with ChangeNotifier{
                 {
                   print(uploadPostImageUrl);
                   final a  =  await uploadPostData(
-                    captionController.text, {'caption': captionController.text,
+                    captionController.text, {
+                      'proimage': user_glob.photoURL,
+                      'caption': captionController.text,
                     'username': user_glob.displayName,
                     'useruid' : Provider.of<Authentication>(context, listen:false).UserUid,
                     'image': uploadPostImageUrl,

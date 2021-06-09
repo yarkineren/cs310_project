@@ -175,13 +175,14 @@ class Customer_Review
 
 class Posts extends StatelessWidget
 {
+  String proimage;
   String image;
   String caption;
   String username;
   Timestamp date;
   String useruid;
 
-  Posts({this.image, this.caption, this.username, this.date,this.useruid});
+  Posts({this.proimage,this.image, this.caption, this.username, this.date,this.useruid});
 
   Future addLike(DocumentSnapshot document, BuildContext context, String postId, String subDocId) async
   {
@@ -198,7 +199,7 @@ class Posts extends StatelessWidget
   }
   factory Posts.fromDocument(DocumentSnapshot document)
   {
-    return Posts(image : document['image']
+    return Posts(proimage: document['proimage'],image : document['image']
     , caption : document['caption'],
   username : document['username'], date : document['date'],useruid: document['useruid'],);
   }
@@ -249,7 +250,7 @@ class Posts extends StatelessWidget
               Expanded(
                 flex: 1,
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/fun.jpg'),
+                  backgroundImage: NetworkImage(proimage),
                 ),
               ),
               Expanded(

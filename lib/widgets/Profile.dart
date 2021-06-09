@@ -97,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                         Expanded(
                           flex: 1,
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/fun.jpg'),
+                            backgroundImage: NetworkImage(user_glob.photoURL),
                           ),
                         ),
                         Expanded(
