@@ -26,6 +26,7 @@ class PostFunctions with ChangeNotifier{
     await FirebaseFirestore.instance.collection('posts').doc(postId).
     collection('comments').doc(comment)
         .set({
+      'proimage': user_glob.photoURL,
       'comment': comment,
       'username': user_glob.displayName,
       'useruid': Provider.of<Authentication>(context, listen:false).UserUid,
