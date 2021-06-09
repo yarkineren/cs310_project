@@ -64,12 +64,30 @@ class new_Login extends StatelessWidget
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text('Event Buddy',
-            style: kAppBarTitleTextStyle),
-        centerTitle: true,
+          backgroundColor: Colors.deepOrangeAccent,
+          centerTitle: true,
+          title: RichText(
+              text: TextSpan(
+                  text: 'Event',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Buddy',
+                        style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        )
+                    )
+                  ]
+              )
+          )
       ),
-      body: Column(
+     body: Column(
         children: <Widget>[
           Form(key: _formKey,
             child: Column(children:
