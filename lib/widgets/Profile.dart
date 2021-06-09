@@ -8,8 +8,10 @@ import 'package:cs310_app/widgets/ProfileEdit.dart';
 import 'package:cs310_app/forms/LoginForm.dart';
 import 'package:cs310_app/globals.dart';
 import 'package:cs310_app/widgets/Feed.dart';
+import 'package:provider/provider.dart';
 
 import '../model.dart';
+import 'CreatePost.dart';
 
 
 
@@ -47,7 +49,9 @@ class _ProfileViewState extends State<ProfileView> {
               padding: const EdgeInsets.only(top: 10.0),
               child: CircularProgressIndicator());
         else {
-          ListView.builder(
+          return ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
             itemCount: snapshot?.data?.length ?? 0,
             itemBuilder: (context, index) {
               Posts p = snapshot.data[index];
@@ -173,17 +177,34 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.headingColor,
-        elevation: 0.0,
+      appBar:AppBar(
+          backgroundColor: Colors.deepOrangeAccent.withOpacity(0.6),
+          centerTitle: true,
+          actions: [
+            IconButton(icon: Icon(Icons.camera_enhance_rounded), color: Colors.deepPurple, onPressed: (){
+              Provider.of<CreatePost>(context, listen:false).selectPostImageType(context);
+            },)
+          ],
+          title: RichText(
+              text: TextSpan(
+                  text: 'Your',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Profile',
+                        style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        )
+                    )
+                  ]
+              )
+          )
       ),
       body: ListView(
         children: <Widget>[
@@ -320,7 +341,7 @@ class _ProfileViewState extends State<ProfileView> {
               ],
             ),
           ),
-          ProfileBuilder(),
+          ProfilePostbuilder(),
 
         ],
       ),
