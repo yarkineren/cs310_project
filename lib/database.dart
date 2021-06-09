@@ -51,7 +51,7 @@ Future<void> check_profile() async{
  */
   Future<int> uploadProfile() async
   {
-    var prof = Profile(0,user_glob.uid,user_glob.photoURL,user_glob.displayName, "write what describes you best", true,[],[]);
+    var prof = Profile(user_glob.uid,user_glob.photoURL,user_glob.displayName, "write what describes you best", true,[],[]);
     FirebaseFirestore.instance.collection('profiles').doc(
         user_glob.uid
     ).set(prof.toJson());
