@@ -37,6 +37,7 @@ class _ProfileViewState extends State<ProfileView> {
         if(user_glob.uid==items[i].useruid)
           itemstoreturn.add(items[i]);
       }
+    post_num=itemstoreturn.length;
     return itemstoreturn;
   }
   Widget ProfilePostbuilder(){
@@ -278,7 +279,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
 
                         Text(
-                          pro.posts.toString(), //burayı sonra yazarım
+                          post_num.toString(), //burayı sonra yazarım
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.w800,
