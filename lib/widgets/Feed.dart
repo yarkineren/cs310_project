@@ -27,6 +27,12 @@ class FeedHelpers with ChangeNotifier{
             Provider.of<CreatePost>(context, listen:false).selectPostImageType(context);
           },)
         ],
+        leading: IconButton(icon: Icon(Icons.person),color: Colors.deepPurple,onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileView()),
+          );
+        }) ,
         title: RichText(
             text: TextSpan(
                 text: 'Event',
@@ -116,115 +122,6 @@ class homeState extends State<HomeScreen2>{
     //PostsNotifier postNotifier = Provider.of<PostsNotifier>(context);
    // PostsNotifier.getPosts();
     return Scaffold(
-      drawer: Drawer(
-      elevation: 10,
-      child: ListView(
-          children:[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: AppColors.headingColor,
-              ),
-              accountName: Text(signup_nickname,
-                textScaleFactor: 1.5,
-              ),
-
-              accountEmail: Text(signup_mail),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/fun.jpg'),
-                radius: 120,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height:32.0),
-                    ListTile(
-                      title: OutlinedButton(
-                        onPressed: () {
-                          _setCurrentScreen1();
-
-                          //Navigator.pushNamed(context, '/home');
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfileView()),
-                          );
-                        },
-                        child: Text(
-                          "My Profile",
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors.headingColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height:32.0),
-                    ListTile(
-                      title: OutlinedButton(
-                        onPressed: () {
-                          //TODO: Navigate
-                          _setCurrentScreen2();
-                          //Navigator.pushNamed(context, '/home');
-                          Navigator.of(context).pop();
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => SearchExploreForm()),
-                                (Route<dynamic> route) => true,
-                          );
-                        },
-                        child: Text(
-                          "What's Around",
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors.headingColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height:32.0),
-                    ListTile(
-                      title: OutlinedButton(
-                        onPressed: () {
-                          //TODO: Navigate
-                          _setCurrentScreen3();
-                          //Navigator.pushNamed(context, '/home');
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginForm()),
-                                (Route<dynamic> route) => false,
-                          );
-                        },
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors.headingColor,
-                        ),
-                      ),
-                    ),
-                  ]
-              ),
-            ),
-          ]
-      ),
-    ),
       appBar: Provider.of<FeedHelpers>(context,listen:false).appBar(context),
       backgroundColor: Colors.deepOrangeAccent.shade200,
       body: Provider.of<FeedHelpers>(context,listen:false).feedBody(context),
