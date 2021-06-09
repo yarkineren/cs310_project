@@ -278,14 +278,17 @@ class Posts extends StatelessWidget
                 child: Container(
                     child: Row(
                       children: [
-                        LikeButton(
-                          onTap: onLikeButtonTapped,
-                          likeBuilder: (bool isLiked) {
-                          return Icon(
-                            Icons.thumb_up_outlined,
-                            color: isLiked ? Colors.deepOrangeAccent : Colors.grey,
-                          );
-                        },
+                        GestureDetector(
+                          onLongPress: (){Provider.of<PostFunctions>(context,listen:false).showLikes(context, this);},
+                          child: LikeButton(
+                            onTap: onLikeButtonTapped,
+                            likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.thumb_up_outlined,
+                              color: isLiked ? Colors.deepOrangeAccent : Colors.grey,
+                            );
+                          },
+                          ),
                         ),
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance.collection(
@@ -322,7 +325,6 @@ class Posts extends StatelessWidget
                           child: Icon(Icons.comment,
                           size: 22.0),
                         ),
-
                       ],
                     )
                 ), //add dynamic date
