@@ -326,6 +326,7 @@ class CreatePost with ChangeNotifier{
                   ,
                     onPressed: () async
                 {
+
                   print(uploadPostImageUrl);
                   final a  =  await uploadPostData(
                     captionController.text, {

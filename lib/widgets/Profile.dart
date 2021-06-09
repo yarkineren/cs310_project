@@ -178,7 +178,7 @@ class _ProfileViewState extends State<ProfileView> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[200],
       appBar:AppBar(
-          backgroundColor: Colors.deepOrangeAccent.withOpacity(0.6),
+          backgroundColor: Colors.deepOrangeAccent,
           centerTitle: true,
           actions: [
             IconButton(icon: Icon(Icons.camera_enhance_rounded), color: Colors.deepPurple, onPressed: (){
@@ -278,7 +278,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
 
                         Text(
-                          '3', //burayı sonra yazarım
+                          pro.posts.toString(), //burayı sonra yazarım
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.w800,
